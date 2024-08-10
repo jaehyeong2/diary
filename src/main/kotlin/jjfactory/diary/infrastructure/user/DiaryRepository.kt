@@ -1,4 +1,4 @@
-package jjfactory.diary.repository
+package jjfactory.diary.infrastructure.user
 
 import jjfactory.diary.domain.diary.Diary
 import org.springframework.data.jpa.repository.JpaRepository

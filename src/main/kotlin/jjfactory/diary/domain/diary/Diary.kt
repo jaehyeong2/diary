@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 @Entity
 class Diary(
     @Enumerated(EnumType.STRING)
-    val type: Type,
+    var type: Type,
     @Column(columnDefinition="TEXT")
     val content: String,
 
@@ -27,5 +27,13 @@ class Diary(
 
     enum class Type {
         PRIVATE, PUBLIC
+    }
+
+    fun hide(){
+        type = Type.PRIVATE
+    }
+
+    fun open(){
+        type = Type.PUBLIC
     }
 }

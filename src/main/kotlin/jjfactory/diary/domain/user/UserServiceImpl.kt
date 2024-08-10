@@ -1,6 +1,6 @@
 package jjfactory.diary.domain.user
 
-import jjfactory.diary.repository.UserRepository
+import jjfactory.diary.infrastructure.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
