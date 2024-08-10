@@ -1,4 +1,4 @@
-package jjfactory.diary.domain
+package jjfactory.diary.domain.user
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -14,12 +14,14 @@ class User(
     val phone: String,
     var gender: Gender,
     val email: String,
-    var username: String
+    var username: String,
+
 ) {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
+    var fcmToken: String? = null
 
     enum class Gender {
-        MSLE, FEMALE
+        MALE, FEMALE
     }
 }
