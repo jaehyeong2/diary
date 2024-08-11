@@ -1,13 +1,15 @@
 package jjfactory.diary.domain.diary
 
 import jjfactory.diary.domain.user.UserReader
-import jjfactory.diary.infrastructure.user.DiaryRepository
+import jjfactory.diary.exception.AccessForbiddenException
+import jjfactory.diary.infrastructure.diary.DiaryRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class DiaryServiceImpl(
     private val diaryRepository: DiaryRepository,
+    private val diaryReader: DiaryReader,
     private val userReader: UserReader
 ) : DiaryService {
 
@@ -21,7 +23,13 @@ class DiaryServiceImpl(
     }
 
     @Transactional
-    override fun modify(userId: Long, command: DiaryCommand.Modify) {
-        TODO("Not yet implemented")
+    override fun modify(userId: Long, id: Long, command: DiaryCommand.Modify) {
+        val diary = diaryReader.getOrThrow(id)
+        if (diary.user.id != userId) throw AccessForbiddenException()
+
+        diary.modify(
+            type = command.type,
+            content = command.content
+        )
     }
 }

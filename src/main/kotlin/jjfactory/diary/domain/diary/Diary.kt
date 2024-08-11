@@ -11,7 +11,7 @@ class Diary(
     @Enumerated(EnumType.STRING)
     var type: Type,
     @Column(columnDefinition="TEXT")
-    val content: String,
+    var content: String,
 
     @ManyToOne(fetch = FetchType.LAZY)
     val user: User,
@@ -35,5 +35,10 @@ class Diary(
 
     fun open(){
         type = Type.PUBLIC
+    }
+
+    fun modify(type: Type, content: String){
+        this.type = type
+        this.content = content
     }
 }
