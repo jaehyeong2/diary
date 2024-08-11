@@ -19,6 +19,8 @@ class DiaryServiceImpl(
         val initDiary = command.toEntity(user)
 
         val diary = diaryRepository.save(initDiary)
+
+        user.pointUp(3)
         return diary.id!!
     }
 
@@ -31,5 +33,15 @@ class DiaryServiceImpl(
             type = command.type,
             content = command.content
         )
+    }
+
+    @Transactional
+    override fun delete(userId: Long, id: Long) {
+        val diary = diaryReader.getOrThrow(id)
+        val user = userReader.getOrThrow(userId)
+        if (diary.user.id != user.id) throw AccessForbiddenException()
+
+        diaryRepository.delete(diary)
+        user.pointDown(3)
     }
 }
