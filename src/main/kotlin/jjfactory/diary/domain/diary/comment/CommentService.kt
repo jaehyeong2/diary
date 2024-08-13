@@ -7,5 +7,5 @@ interface CommentService {
     fun getCommentById(id: Long): CommentInfo.Detail
     fun deleteById(id: Long, userId: Long)
     fun modify(id: Long, userId: Long, command: CommentCommand.Modify)
-    fun create(userId:Long, command: CommentCommand.Create)
+    fun create(userId:Long, command: CommentCommand.Create): Long
 }

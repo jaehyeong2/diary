@@ -27,4 +27,8 @@ class Comment(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 
+
+    fun modify(content: String){
+        this.content = content
+    }
 }
