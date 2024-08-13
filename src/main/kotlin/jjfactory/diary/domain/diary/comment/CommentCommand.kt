@@ -5,6 +5,7 @@ import jjfactory.diary.domain.user.User
 
 class CommentCommand {
     data class Create(
+        val diaryOwnerId: Long,
         val diaryId: Long,
         val content: String
     ){
