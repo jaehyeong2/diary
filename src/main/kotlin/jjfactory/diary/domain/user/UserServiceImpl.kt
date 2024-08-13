@@ -12,11 +12,9 @@ class UserServiceImpl(
     @Transactional
     override fun join(command: UserCommand.Create): Long {
         val initUser = command.toEntity()
-
-        //todo 인증
-        //todo fush 알림
-
         val user = userRepository.save(initUser)
         return user.id!!
     }
+
+
 }

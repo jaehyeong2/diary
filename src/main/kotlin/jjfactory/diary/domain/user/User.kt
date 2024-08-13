@@ -15,7 +15,8 @@ class User(
     var gender: Gender,
     val email: String,
     var username: String,
-    var point: Int = 0
+    var point: Int = 0,
+    var activated: Boolean = false
 
 ) {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,5 +34,9 @@ class User(
     fun pointDown(point: Int){
         if (this.point < point) this.point = 0
         else this.point -= point
+    }
+
+    fun activate(){
+        activated = true
     }
 }
