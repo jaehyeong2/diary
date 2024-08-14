@@ -17,4 +17,16 @@ class UserReaderImpl(
     override fun getOrThrow(id: Long): User {
         return userRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException("user not found")
     }
+
+    override fun existsByUsername(username: String): Boolean {
+        return userRepository.existsByUsername(username)
+    }
+
+    override fun getOrThrowByUsername(username: String): User {
+        return userRepository.findByUsername(username) ?: throw ResourceNotFoundException("user not found")
+    }
+
+    override fun getOrThrowByEmail(username: String): User {
+        return userRepository.findByEmail(username) ?: throw ResourceNotFoundException("user not found")
+    }
 }

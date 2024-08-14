@@ -1,11 +1,13 @@
 package jjfactory.diary.domain.auth
 
+import jjfactory.diary.common.exception.InvalidPasswordException
 import jjfactory.diary.domain.user.DuplicateUserNameException
 import jjfactory.diary.domain.user.UserCommand
 import jjfactory.diary.domain.user.UserReader
 import jjfactory.diary.infrastructure.user.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class AuthServiceImpl(
@@ -13,6 +15,8 @@ class AuthServiceImpl(
     private val passwordEncoder: PasswordEncoder,
     private val userRepository: UserRepository
 ) : AuthService {
+
+    @Transactional
     override fun join(command: UserCommand.Create): Long {
         if (userRepository.existsByUsername(command.username)) throw DuplicateUserNameException()
         val encPassword = passwordEncoder.encode(command.password)
@@ -23,6 +27,8 @@ class AuthServiceImpl(
     }
 
     override fun login(email: String, password: String) {
-        TODO("Not yet implemented")
+        val user = userReader.getOrThrowByEmail(email)
+
+        if (!passwordEncoder.matches(password, user.password)) throw InvalidPasswordException()
     }
 }
