@@ -1,17 +1,26 @@
 package jjfactory.diary.domain.user
 
-import jjfactory.diary.infrastructure.user.UserRepository
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserServiceImpl(
-    private val userRepository: UserRepository,
-    private val passwordEncoder: PasswordEncoder
+    private val userReader: UserReader,
 ) : UserService {
 
+    @Transactional(readOnly = true)
+    override fun getInfoByUserId(userId: Long): UserInfo.Detail {
+        userReader.getOrThrow(userId).let {
+            return UserInfo.Detail(
+                lastName = it.lastName,
+                firstName = it.firstName,
+                phone = it.phone,
+                gender = it.gender.toString(),
+                email = it.email,
+                username = it.username,
+                point = it.point
+            )
+        }
 
-
-
+    }
 }
