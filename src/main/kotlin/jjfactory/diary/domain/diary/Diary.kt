@@ -13,8 +13,7 @@ class Diary(
     @Column(columnDefinition="TEXT")
     var content: String,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    val user: User,
+    val userId: Long,
 
     @CreationTimestamp
     var createdAt: LocalDateTime? = null,

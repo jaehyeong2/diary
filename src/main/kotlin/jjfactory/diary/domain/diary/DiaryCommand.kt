@@ -7,9 +7,9 @@ class DiaryCommand {
         val content: String,
         val type: Diary.Type
     ){
-        fun toEntity(user: User): Diary {
+        fun toEntity(userId: Long): Diary {
             return Diary(
-                user = user,
+                userId = userId,
                 type = type,
                 content = content
             )

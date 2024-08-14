@@ -3,6 +3,7 @@ package jjfactory.diary.domain.diary
 import jjfactory.diary.domain.user.UserReader
 import jjfactory.diary.common.exception.AccessForbiddenException
 import jjfactory.diary.infrastructure.diary.DiaryRepository
+import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,7 +17,7 @@ class DiaryServiceImpl(
 
     override fun write(userId: Long, command: DiaryCommand.Create): Long {
         val user = userReader.getOrThrow(userId)
-        val initDiary = command.toEntity(user)
+        val initDiary = command.toEntity(user.id!!)
 
         val diary = diaryRepository.save(initDiary)
 
@@ -26,7 +27,7 @@ class DiaryServiceImpl(
 
     override fun modify(userId: Long, id: Long, command: DiaryCommand.Modify) {
         val diary = diaryReader.getOrThrow(id)
-        if (diary.user.id != userId) throw AccessForbiddenException()
+        if (diary.userId != userId) throw AccessForbiddenException()
 
         diary.modify(
             type = command.type,
@@ -37,7 +38,7 @@ class DiaryServiceImpl(
     override fun delete(userId: Long, id: Long) {
         val diary = diaryReader.getOrThrow(id)
         val user = userReader.getOrThrow(userId)
-        if (diary.user.id != user.id) throw AccessForbiddenException()
+        if (diary.userId != user.id) throw AccessForbiddenException()
 
         diaryRepository.delete(diary)
         user.pointDown(3)
@@ -46,11 +47,12 @@ class DiaryServiceImpl(
     @Transactional(readOnly = true)
     override fun getDiary(id: Long, userId: Long): DiaryInfo.Detail {
         val diary = diaryReader.getOrThrow(id)
-        val owner = diary.user
 
-        if (diary.type == Diary.Type.PRIVATE && owner.id != userId){
+        if (diary.type == Diary.Type.PRIVATE && diary.userId != userId){
             throw AccessForbiddenException()
         }
+
+        val owner = userReader.getOrThrow(diary.userId)
 
         return DiaryInfo.Detail(
             id = diary.id!!,
@@ -66,7 +68,7 @@ class DiaryServiceImpl(
 
     override fun open(userId: Long, id: Long) {
         val diary = diaryReader.getOrThrow(id)
-        val owner = diary.user
+        val owner = userReader.getOrThrow(diary.userId)
 
         if (diary.type == Diary.Type.PRIVATE && owner.id != userId){
             throw AccessForbiddenException()
@@ -76,11 +78,15 @@ class DiaryServiceImpl(
 
     override fun hide(userId: Long, id: Long) {
         val diary = diaryReader.getOrThrow(id)
-        val owner = diary.user
+        val owner = userReader.getOrThrow(diary.userId)
 
         if (diary.type == Diary.Type.PRIVATE && owner.id != userId){
             throw AccessForbiddenException()
         }
         diary.hide()
+    }
+
+    override fun getDiaryPage(): Page<DiaryInfo.Detail> {
+        TODO("Not yet implemented")
     }
 }
