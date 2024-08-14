@@ -5,16 +5,18 @@ class UserCommand {
         val lastName: String,
         val firstName: String,
         val phone: String,
+        val password: String,
         var gender: User.Gender,
         val email: String,
         var username: String
     ){
-        fun toEntity(): User {
+        fun toEntity(encPassword: String): User {
             return User(
                 lastName = lastName,
                 firstName = firstName,
                 phone = phone,
                 gender = gender,
+                password = encPassword,
                 email = email,
                 username = username
             )

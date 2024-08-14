@@ -12,6 +12,7 @@ class User(
     val lastName: String,
     val firstName: String,
     val phone: String,
+    val password: String,
     var gender: Gender,
     val email: String,
     var username: String,
