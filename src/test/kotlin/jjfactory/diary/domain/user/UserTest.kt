@@ -12,7 +12,8 @@ class UserTest {
             phone = "01012341234",
             gender = User.Gender.MALE,
             email = "wogud2@naver.com",
-            username = "kkk"
+            username = "kkk",
+            password = "1234"
         )
 
         user.pointUp(5)
@@ -29,7 +30,8 @@ class UserTest {
             gender = User.Gender.MALE,
             email = "wogud2@naver.com",
             username = "kkk",
-            point = 10
+            point = 10,
+            password = "1234"
         )
 
         user.pointDown(7)

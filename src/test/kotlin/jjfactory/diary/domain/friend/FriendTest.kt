@@ -16,7 +16,8 @@ class FriendTest{
             phone = "01012341234",
             gender = User.Gender.MALE,
             email = "wogud2@naver.com",
-            username = "kkk"
+            username = "kkk",
+            password = "1234"
         )
 
         val user2 = User(
@@ -25,7 +26,8 @@ class FriendTest{
             phone = "01012341234",
             gender = User.Gender.MALE,
             email = "wogud2@naver.com",
-            username = "kkk"
+            username = "kkk",
+            password = "1234"
         )
 
         val friend = Friend(

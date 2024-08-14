@@ -30,7 +30,8 @@ class DiaryServiceImplTest(
             phone = "01012341234",
             gender = User.Gender.MALE,
             email = "wogud2@naver.com",
-            username = "kkk"
+            username = "kkk",
+            password = "1234"
         )
 
         entityManager.persist(user)
@@ -55,7 +56,8 @@ class DiaryServiceImplTest(
             phone = "01012341234",
             gender = User.Gender.MALE,
             email = "wogud2@naver.com",
-            username = "kkk"
+            username = "kkk",
+            password = "1234"
         )
 
         entityManager.persist(user)
@@ -91,7 +93,8 @@ class DiaryServiceImplTest(
             phone = "01012341234",
             gender = User.Gender.MALE,
             email = "wogud2@naver.com",
-            username = "kkk"
+            username = "kkk",
+            password = "1234"
         )
 
         entityManager.persist(user)
@@ -102,7 +105,8 @@ class DiaryServiceImplTest(
             phone = "01012341234",
             gender = User.Gender.MALE,
             email = "wogud2@naver.com",
-            username = "kkk"
+            username = "kkk",
+            password = "1234"
         )
 
         entityManager.persist(user2)
