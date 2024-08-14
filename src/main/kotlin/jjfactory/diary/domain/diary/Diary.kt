@@ -1,7 +1,6 @@
 package jjfactory.diary.domain.diary
 
 import jakarta.persistence.*
-import jjfactory.diary.domain.user.User
 import org.hibernate.annotations.CreationTimestamp
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.LocalDateTime
@@ -10,6 +9,9 @@ import java.time.LocalDateTime
 class Diary(
     @Enumerated(EnumType.STRING)
     var type: Type,
+    @Enumerated(EnumType.STRING)
+    var accessLevel: Diary.AccessLevel,
+
     @Column(columnDefinition="TEXT")
     var content: String,
 
@@ -24,20 +26,29 @@ class Diary(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 
-    enum class Type {
-        PRIVATE, PUBLIC
+    enum class AccessLevel {
+        PRIVATE, ALL, GROUP, FRIEND
+    }
+
+    enum class Type(msg: String) {
+        DAILY("일상"),
+        EVENT("특별한 이벤트"),
+        ACHIEVEMENTS("성취"),
+        INSPIRATION("영감"),
+        REFLECTIONS("반성")
     }
 
     fun hide(){
-        type = Type.PRIVATE
+        accessLevel = AccessLevel.PRIVATE
     }
 
-    fun open(){
-        type = Type.PUBLIC
+    fun openToAll(){
+        accessLevel = AccessLevel.ALL
     }
 
-    fun modify(type: Type, content: String){
+    fun modify(type: Type, content: String, accessLevel: AccessLevel){
         this.type = type
+        this.accessLevel = accessLevel
         this.content = content
     }
 }

@@ -54,7 +54,7 @@ class DiaryApi(
 
     @PostMapping("/{id}/open")
     fun open(@PathVariable id: Long): CommonResponse<Unit> {
-        diaryService.open(
+        diaryService.openToAll(
             userId = 2L,
             id = id,
         )

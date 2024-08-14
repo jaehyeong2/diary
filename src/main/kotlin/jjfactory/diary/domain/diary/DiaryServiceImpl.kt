@@ -31,7 +31,8 @@ class DiaryServiceImpl(
 
         diary.modify(
             type = command.type,
-            content = command.content
+            content = command.content,
+            accessLevel = command.accessLevel
         )
     }
 
@@ -48,7 +49,7 @@ class DiaryServiceImpl(
     override fun getDiary(id: Long, userId: Long): DiaryInfo.Detail {
         val diary = diaryReader.getOrThrow(id)
 
-        if (diary.type == Diary.Type.PRIVATE && diary.userId != userId){
+        if (diary.accessLevel == Diary.AccessLevel.PRIVATE && diary.userId != userId){
             throw AccessForbiddenException()
         }
 
@@ -66,23 +67,24 @@ class DiaryServiceImpl(
 
     }
 
-    override fun open(userId: Long, id: Long) {
+    override fun openToAll(userId: Long, id: Long) {
         val diary = diaryReader.getOrThrow(id)
         val owner = userReader.getOrThrow(diary.userId)
 
-        if (diary.type == Diary.Type.PRIVATE && owner.id != userId){
+        if (owner.id != userId){
             throw AccessForbiddenException()
         }
-        diary.open()
+        diary.openToAll()
     }
 
     override fun hide(userId: Long, id: Long) {
         val diary = diaryReader.getOrThrow(id)
         val owner = userReader.getOrThrow(diary.userId)
 
-        if (diary.type == Diary.Type.PRIVATE && owner.id != userId){
+        if (owner.id != userId){
             throw AccessForbiddenException()
         }
+
         diary.hide()
     }
 
