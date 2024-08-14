@@ -11,15 +11,7 @@ class UserServiceImpl(
     private val passwordEncoder: PasswordEncoder
 ) : UserService {
 
-    @Transactional
-    override fun join(command: UserCommand.Create): Long {
-        if (userRepository.existsByUsername(command.username)) throw DuplicateUserNameException()
-        val encPassword = passwordEncoder.encode(command.password)
 
-        val initUser = command.toEntity(encPassword)
-        val user = userRepository.save(initUser)
-        return user.id!!
-    }
 
 
 }

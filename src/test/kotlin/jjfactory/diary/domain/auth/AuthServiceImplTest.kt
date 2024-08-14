@@ -1,5 +1,8 @@
-package jjfactory.diary.domain.user
+package jjfactory.diary.domain.auth
 
+import jjfactory.diary.domain.user.DuplicateUserNameException
+import jjfactory.diary.domain.user.User
+import jjfactory.diary.domain.user.UserCommand
 import jjfactory.diary.infrastructure.user.UserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -9,10 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
-class UserServiceImplTest {
+class AuthServiceImplTest {
 
     @Autowired
-    lateinit var userService: UserServiceImpl
+    lateinit var authService: AuthServiceImpl
 
     @Autowired
     lateinit var userRepository: UserRepository
@@ -30,7 +33,7 @@ class UserServiceImplTest {
             password = "1234"
         )
 
-        val result = userService.join(command)
+        val result = authService.join(command)
         assertThat(result).isNotNull()
     }
 
@@ -47,11 +50,11 @@ class UserServiceImplTest {
             password = "1234"
         )
 
-        userService.join(command)
+        authService.join(command)
 
 
         assertThatThrownBy {
-            userService.join(command)
+            authService.join(command)
         }.isInstanceOf(DuplicateUserNameException::class.java)
     }
 
