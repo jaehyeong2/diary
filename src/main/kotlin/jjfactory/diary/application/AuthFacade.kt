@@ -10,8 +10,12 @@ class AuthFacade(
     private val userService: UserService,
     private val mailSender: MailSender
 ) {
-    fun join(command: UserCommand.Create){
+    fun join(command: UserCommand.Create) {
         userService.join(command)
         mailSender.sendUserActivateMail(command.email)
+    }
+
+    fun login(email: String, password: String) {
+
     }
 }

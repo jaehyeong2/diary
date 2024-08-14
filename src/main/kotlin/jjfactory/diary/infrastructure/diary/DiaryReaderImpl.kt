@@ -2,7 +2,7 @@ package jjfactory.diary.infrastructure.diary
 
 import jjfactory.diary.domain.diary.Diary
 import jjfactory.diary.domain.diary.DiaryReader
-import jjfactory.diary.exception.ResourceNotFoundException
+import jjfactory.diary.common.exception.ResourceNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 

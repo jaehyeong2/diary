@@ -3,7 +3,7 @@ package jjfactory.diary.domain.diary
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import jjfactory.diary.domain.user.User
-import jjfactory.diary.exception.AccessForbiddenException
+import jjfactory.diary.common.exception.AccessForbiddenException
 import jjfactory.diary.infrastructure.diary.DiaryReaderImpl
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test

@@ -5,6 +5,6 @@ interface DiaryService {
     fun modify(userId: Long, id: Long, command: DiaryCommand.Modify)
     fun delete(userId: Long, id: Long)
     fun getDiary(id: Long, userId: Long): DiaryInfo.Detail
-    fun open(id: Long)
-    fun hide(id: Long)
+    fun open(userId: Long, id: Long)
+    fun hide(userId: Long, id: Long)
 }

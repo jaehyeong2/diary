@@ -2,7 +2,7 @@ package jjfactory.diary.domain.diary.comment
 
 import jjfactory.diary.domain.diary.DiaryReader
 import jjfactory.diary.domain.user.UserReader
-import jjfactory.diary.exception.AccessForbiddenException
+import jjfactory.diary.common.exception.AccessForbiddenException
 import jjfactory.diary.infrastructure.diary.comment.CommentRepository
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Component

@@ -2,7 +2,7 @@ package jjfactory.diary.infrastructure.notification
 
 import jjfactory.diary.domain.notification.Notification
 import jjfactory.diary.domain.notification.NotificationReader
-import jjfactory.diary.exception.ResourceNotFoundException
+import jjfactory.diary.common.exception.ResourceNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component

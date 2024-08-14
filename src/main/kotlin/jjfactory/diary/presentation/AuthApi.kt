@@ -18,4 +18,17 @@ class AuthApi(
         return CommonResponse(authFacade.join(command))
     }
 
+    @PostMapping("/login")
+    fun login(@RequestBody request: LoginRequest) {
+        authFacade.login(
+            email = request.email,
+            password = request.password
+        )
+    }
+
 }
+
+data class LoginRequest(
+    val email: String,
+    val password: String
+)

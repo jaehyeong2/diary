@@ -1,4 +1,4 @@
-package jjfactory.diary.exception
+package jjfactory.diary.common.exception
 
 class AccessForbiddenException: RuntimeException() {
 }

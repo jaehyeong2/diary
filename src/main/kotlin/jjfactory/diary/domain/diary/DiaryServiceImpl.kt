@@ -1,7 +1,7 @@
 package jjfactory.diary.domain.diary
 
 import jjfactory.diary.domain.user.UserReader
-import jjfactory.diary.exception.AccessForbiddenException
+import jjfactory.diary.common.exception.AccessForbiddenException
 import jjfactory.diary.infrastructure.diary.DiaryRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -64,11 +64,23 @@ class DiaryServiceImpl(
 
     }
 
-    override fun open(id: Long) {
-        diaryReader.getOrThrow(id).open()
+    override fun open(userId: Long, id: Long) {
+        val diary = diaryReader.getOrThrow(id)
+        val owner = diary.user
+
+        if (diary.type == Diary.Type.PRIVATE && owner.id != userId){
+            throw AccessForbiddenException()
+        }
+        diary.open()
     }
 
-    override fun hide(id: Long) {
-        diaryReader.getOrThrow(id).hide()
+    override fun hide(userId: Long, id: Long) {
+        val diary = diaryReader.getOrThrow(id)
+        val owner = diary.user
+
+        if (diary.type == Diary.Type.PRIVATE && owner.id != userId){
+            throw AccessForbiddenException()
+        }
+        diary.hide()
     }
 }
