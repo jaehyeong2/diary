@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:postgresql://localhost:5432/diary_local
+    username: diary_local
+    password: diary_local
+
+
+  # jpa
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+
+application:
+  Environment: local
+
+billing:
+  toss-payments: dummy

@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.LocalDateTime
 
+@Table(name = "groups")
 @Entity
 class Group(
     var name: String,
