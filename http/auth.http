@@ -1,0 +1,15 @@
+### 회원가입
+
+POST http://localhost:8080/auth/join
+Content-Type: application/json
+
+{
+  "password" : "1234",
+  "useraname" : "1234",
+  "lastName" : "1234",
+  "firstName" : "1234",
+  "phone": "1234",
+  "username": "lee2",
+  "gender": "MALE",
+  "email" : "wogud1514@naver.com"
+}
