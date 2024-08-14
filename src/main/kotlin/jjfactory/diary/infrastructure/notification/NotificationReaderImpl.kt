@@ -19,6 +19,10 @@ class NotificationReaderImpl(
         return notificationRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException("notification not found")
     }
 
+    override fun findAllByTargetUserIdAndReadIsFalse(userId: Long): List<Notification> {
+        return notificationRepository.findAllByTargetUserIdAndIsReadIsFalse(userId)
+    }
+
     override fun getPageByTargetUserId(userId: Long): Page<Notification> {
         TODO("Not yet implemented")
     }

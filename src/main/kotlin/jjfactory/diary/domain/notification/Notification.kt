@@ -13,6 +13,8 @@ class Notification(
     val sourceUserId: Long,
     val targetUserId: Long,
 
+    var isRead: Boolean = false,
+
     @CreationTimestamp
     var createdAt: LocalDateTime? = null,
     @LastModifiedDate
@@ -21,4 +23,8 @@ class Notification(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
+
+    fun read(){
+        isRead = true
+    }
 }
