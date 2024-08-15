@@ -3,6 +3,8 @@ package jjfactory.diary.domain.diary
 import jjfactory.diary.domain.user.UserReader
 import jjfactory.diary.common.exception.AccessForbiddenException
 import jjfactory.diary.infrastructure.diary.DiaryRepository
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -25,6 +27,7 @@ class DiaryServiceImpl(
         return diary.id!!
     }
 
+    @CacheEvict
     override fun modify(userId: Long, id: Long, command: DiaryCommand.Modify) {
         val diary = diaryReader.getOrThrow(id)
         if (diary.userId != userId) throw AccessForbiddenException()
@@ -45,6 +48,7 @@ class DiaryServiceImpl(
         user.pointDown(3)
     }
 
+    @Cacheable
     @Transactional(readOnly = true)
     override fun getDiary(id: Long, userId: Long): DiaryInfo.Detail {
         val diary = diaryReader.getOrThrow(id)
@@ -67,6 +71,7 @@ class DiaryServiceImpl(
 
     }
 
+    @CacheEvict
     override fun openToAll(userId: Long, id: Long) {
         val diary = diaryReader.getOrThrow(id)
         val owner = userReader.getOrThrow(diary.userId)
@@ -77,6 +82,7 @@ class DiaryServiceImpl(
         diary.openToAll()
     }
 
+    @CacheEvict
     override fun hide(userId: Long, id: Long) {
         val diary = diaryReader.getOrThrow(id)
         val owner = userReader.getOrThrow(diary.userId)
