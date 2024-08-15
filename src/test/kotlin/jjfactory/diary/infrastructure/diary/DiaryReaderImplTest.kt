@@ -20,7 +20,7 @@ class DiaryReaderImplTest {
     @Test
     fun getDiaryPage() {
         val diary = Diary(
-            type = Diary.Type.PRIVATE,
+            type = Diary.Type.DAILY,
             content = "test",
             userId = 2L
         )

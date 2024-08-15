@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
+import java.lang.reflect.Member.PUBLIC
 
 @SpringBootTest
 class DiaryServiceImplTest(
@@ -38,7 +39,8 @@ class DiaryServiceImplTest(
 
         val command = DiaryCommand.Create(
             content = "안녕 오늘 일기야",
-            type = Diary.Type.PUBLIC
+            type = Diary.Type.DAILY,
+            accessLevel = Diary.AccessLevel.PRIVATE
         )
 
         diaryService.write(
@@ -64,7 +66,8 @@ class DiaryServiceImplTest(
 
         val command = DiaryCommand.Create(
             content = "안녕 오늘 일기야",
-            type = Diary.Type.PUBLIC
+            type = Diary.Type.DAILY,
+            accessLevel = Diary.AccessLevel.PRIVATE
         )
 
         val diaryId = diaryService.write(
@@ -73,14 +76,15 @@ class DiaryServiceImplTest(
         )
 
         val command2 = DiaryCommand.Modify(
-            content = "수정된 일기",
-            type = Diary.Type.PRIVATE
+            content = "안녕 오늘 일기야",
+            type = Diary.Type.DAILY,
+            accessLevel = Diary.AccessLevel.PRIVATE
         )
 
         diaryService.modify(user.id!!, diaryId, command2)
 
         val diary = diaryReader.getOrThrow(diaryId)
-        Assertions.assertThat(diary.type).isEqualTo(Diary.Type.PRIVATE)
+        Assertions.assertThat(diary.type).isEqualTo(Diary.Type.DAILY)
         Assertions.assertThat(diary.content).isEqualTo(command2.content)
     }
 
@@ -113,7 +117,8 @@ class DiaryServiceImplTest(
 
         val command = DiaryCommand.Create(
             content = "안녕 오늘 일기야",
-            type = Diary.Type.PUBLIC
+            type = Diary.Type.DAILY,
+            accessLevel = Diary.AccessLevel.PRIVATE
         )
 
         val diaryId = diaryService.write(
@@ -122,8 +127,9 @@ class DiaryServiceImplTest(
         )
 
         val command2 = DiaryCommand.Modify(
-            content = "수정된 일기",
-            type = Diary.Type.PRIVATE
+            content = "안녕 오늘 일기야",
+            type = Diary.Type.DAILY,
+            accessLevel = Diary.AccessLevel.PRIVATE
         )
 
         Assertions.assertThatThrownBy {

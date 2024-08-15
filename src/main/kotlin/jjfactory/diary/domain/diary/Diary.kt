@@ -10,7 +10,7 @@ class Diary(
     @Enumerated(EnumType.STRING)
     var type: Type,
     @Enumerated(EnumType.STRING)
-    var accessLevel: Diary.AccessLevel,
+    var accessLevel: Diary.AccessLevel = AccessLevel.PRIVATE,
 
     @Column(columnDefinition="TEXT")
     var content: String,

@@ -33,7 +33,7 @@ dependencies {
 	implementation("com.linecorp.kotlin-jdsl:spring-data-jpa-support:3.5.1")
 
 	//ai
-	implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter")
+//	implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter")
 
 	runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
