@@ -21,6 +21,11 @@ spring:
       hibernate:
         format_sql: true
 
+security:
+  jwt:
+    token:
+      secret-key: test1test2test3FMETR9bzr4D79QUgeG7zujVfLRxcSrY6KHuhTVY4gZjAbCepNpAxJ46Vec5C4VQfSuH5HfYdX95PNzhYSrjFdbAq4vHDKhe3SEB7kMhdummytest1
+
 
 application:
   Environment: local

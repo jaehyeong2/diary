@@ -1,4 +1,4 @@
-package jjfactory.diary.config
+package jjfactory.diary.config.security
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean

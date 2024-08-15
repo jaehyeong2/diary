@@ -2,6 +2,7 @@ package jjfactory.diary.presentation
 
 import jjfactory.diary.application.AuthFacade
 import jjfactory.diary.common.response.CommonResponse
+import jjfactory.diary.domain.auth.AuthInfo
 import jjfactory.diary.domain.user.UserCommand
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -19,11 +20,13 @@ class AuthApi(
     }
 
     @PostMapping("/login")
-    fun login(@RequestBody request: LoginRequest) {
-        authFacade.login(
+    fun login(@RequestBody request: LoginRequest): CommonResponse<AuthInfo.Detail> {
+        val result = authFacade.login(
             email = request.email,
             password = request.password
         )
+
+        return CommonResponse(result)
     }
 
 }
