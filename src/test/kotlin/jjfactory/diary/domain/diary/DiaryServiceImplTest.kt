@@ -2,6 +2,7 @@ package jjfactory.diary.domain.diary
 
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
+import jjfactory.diary.TestEntityFactory
 import jjfactory.diary.domain.user.User
 import jjfactory.diary.common.exception.AccessForbiddenException
 import jjfactory.diary.infrastructure.diary.DiaryReaderImpl
@@ -16,6 +17,8 @@ import java.lang.reflect.Member.PUBLIC
 class DiaryServiceImplTest(
 
 ) {
+    private val testEntityFactory = TestEntityFactory()
+
     @Autowired
     lateinit var diaryService: DiaryServiceImpl
     @PersistenceContext
@@ -25,15 +28,7 @@ class DiaryServiceImplTest(
     @Test
     @Transactional
     fun writeSuccess() {
-        val user = User(
-            lastName = "lee",
-            firstName = "jj",
-            phone = "01012341234",
-            gender = User.Gender.MALE,
-            email = "wogud2@naver.com",
-            username = "kkk",
-            password = "1234"
-        )
+        val user = testEntityFactory.ofUser()
 
         entityManager.persist(user)
 
@@ -52,15 +47,7 @@ class DiaryServiceImplTest(
     @Test
     @Transactional
     fun modifySuccess() {
-        val user = User(
-            lastName = "lee",
-            firstName = "jj",
-            phone = "01012341234",
-            gender = User.Gender.MALE,
-            email = "wogud2@naver.com",
-            username = "kkk",
-            password = "1234"
-        )
+        val user = testEntityFactory.ofUser()
 
         entityManager.persist(user)
 
@@ -91,27 +78,11 @@ class DiaryServiceImplTest(
     @Test
     @Transactional
     fun `본인 아니면 수정하려하면 익셉션`() {
-        val user = User(
-            lastName = "lee",
-            firstName = "jj",
-            phone = "01012341234",
-            gender = User.Gender.MALE,
-            email = "wogud2@naver.com",
-            username = "kkk",
-            password = "1234"
-        )
+        val user = testEntityFactory.ofUser()
 
         entityManager.persist(user)
 
-        val user2 = User(
-            lastName = "lee",
-            firstName = "jj",
-            phone = "01012341234",
-            gender = User.Gender.MALE,
-            email = "wogud2@naver.com",
-            username = "kkk",
-            password = "1234"
-        )
+        val user2 = testEntityFactory.ofUser()
 
         entityManager.persist(user2)
 
@@ -134,7 +105,7 @@ class DiaryServiceImplTest(
 
         Assertions.assertThatThrownBy {
             diaryService.modify(user2.id!!, diaryId, command2)
-        }.isEqualTo(AccessForbiddenException::class.java)
+        }.isInstanceOf(AccessForbiddenException::class.java)
     }
 
 }

@@ -1,20 +1,15 @@
 package jjfactory.diary.domain.user
 
+import jjfactory.diary.TestEntityFactory
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class UserTest {
+    private val testEntityFactory = TestEntityFactory()
+
     @Test
     fun pointUp() {
-        val user = User(
-            lastName = "lee",
-            firstName = "jj",
-            phone = "01012341234",
-            gender = User.Gender.MALE,
-            email = "wogud2@naver.com",
-            username = "kkk",
-            password = "1234"
-        )
+        val user = testEntityFactory.ofUser()
 
         user.pointUp(5)
 
@@ -23,16 +18,8 @@ class UserTest {
 
     @Test
     fun pointDown() {
-        val user = User(
-            lastName = "lee",
-            firstName = "jj",
-            phone = "01012341234",
-            gender = User.Gender.MALE,
-            email = "wogud2@naver.com",
-            username = "kkk",
-            point = 10,
-            password = "1234"
-        )
+        val user = testEntityFactory.ofUser()
+        user.pointUp(10)
 
         user.pointDown(7)
         assertThat(user.point).isEqualTo(3)
