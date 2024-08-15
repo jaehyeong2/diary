@@ -20,7 +20,7 @@ class DiaryReaderImpl(
         return diaryRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException("diary not found")
     }
 
-    override fun getDiaryPage(pageable: Pageable): Page<Diary?> {
+    override fun getPage(pageable: Pageable): Page<Diary?> {
         return diaryRepository.findPage(pageable) {
             select(
                 entity(Diary::class)

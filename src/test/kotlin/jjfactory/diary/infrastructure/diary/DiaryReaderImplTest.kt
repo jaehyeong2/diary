@@ -4,7 +4,6 @@ import jjfactory.diary.domain.diary.Diary
 import jjfactory.diary.domain.diary.DiaryReader
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.data.domain.PageRequest
@@ -30,7 +29,7 @@ class DiaryReaderImplTest {
         val req = PageRequest.of(0, 10)
 
 
-        diaryReader.getDiaryPage(req).forEach {
+        diaryReader.getPage(req).forEach {
             println("it = ${it}")
         }
     }

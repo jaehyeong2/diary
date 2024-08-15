@@ -1,18 +1,15 @@
 package jjfactory.diary.domain.friend
 
 import jakarta.persistence.*
-import jjfactory.diary.domain.user.User
+import jjfactory.diary.common.exception.AccessForbiddenException
 import org.hibernate.annotations.CreationTimestamp
 import org.springframework.data.annotation.LastModifiedDate
 import java.time.LocalDateTime
 
 @Entity
 class Friend(
-    @ManyToOne(fetch = FetchType.LAZY)
-    val sender: User,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    val receiver: User,
+    val senderId: Long,
+    val receiverId: Long,
 
     @Enumerated(EnumType.STRING)
     var status: Status = Status.REQUESTED,
@@ -30,7 +27,8 @@ class Friend(
         REQUESTED, ACCEPTED
     }
 
-    fun accept(){
+    fun accept(userId: Long){
+        if (receiverId != userId) throw AccessForbiddenException()
         status = Status.ACCEPTED
     }
 }

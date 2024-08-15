@@ -31,4 +31,16 @@ class CustomExceptionHandler {
         )
         return ResponseEntity(errorResponse, HttpStatus.FORBIDDEN)
     }
+
+    @ExceptionHandler(ResourceNotFoundException::class)
+    fun handleResourceNotFoundException(
+        ex: ResourceNotFoundException,
+        request: HttpServletRequest
+    ): ResponseEntity<ErrorResponseBody> {
+        val errorResponse = ErrorResponseBody(
+            status = HttpStatus.NOT_FOUND.value(),
+            message = ex.message
+        )
+        return ResponseEntity(errorResponse, HttpStatus.NOT_FOUND)
+    }
 }

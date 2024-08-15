@@ -1,3 +1,3 @@
 package jjfactory.diary.common.exception
 
-class ResourceNotFoundException(msg: String) : RuntimeException()
+class ResourceNotFoundException(override val message: String): RuntimeException()
