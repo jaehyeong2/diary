@@ -1,5 +1,6 @@
 package jjfactory.diary.application
 
+import jjfactory.diary.domain.diary.DiaryService
 import jjfactory.diary.domain.diary.comment.CommentCommand
 import jjfactory.diary.domain.diary.comment.CommentService
 import jjfactory.diary.domain.notification.Notification
@@ -11,16 +12,18 @@ import org.springframework.transaction.annotation.Transactional
 @Component
 class CommentFacade(
     private val commentService: CommentService,
+    private val diaryService: DiaryService,
     private val notificationRepository: NotificationRepository
 ) {
 
     @Transactional
     fun writeComment(userId: Long, command: CommentCommand.Create): Long {
         val commentId = commentService.create(userId = userId, command = command)
+        val diary = diaryService.getDiary(id = command.diaryId, userId = userId)
 
         val initNotification = Notification(
             sourceUserId = userId,
-            targetUserId = command.diaryOwnerId,
+            targetUserId = diary.userId,
             type = NotificationType.WRITE_COMMENT
         )
 
