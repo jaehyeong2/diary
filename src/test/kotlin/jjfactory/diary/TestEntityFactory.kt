@@ -25,4 +25,13 @@ class TestEntityFactory {
             accessLevel = Diary.AccessLevel.PRIVATE
         )
     }
+
+    fun ofPublicDiary(userId: Long? = null): Diary {
+        return Diary(
+            userId = userId ?: 2L,
+            content = "안녕 오늘 일기야",
+            type = Diary.Type.DAILY,
+            accessLevel = Diary.AccessLevel.ALL
+        )
+    }
 }

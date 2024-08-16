@@ -5,11 +5,17 @@ import jakarta.persistence.PersistenceContext
 import jjfactory.diary.TestEntityFactory
 import jjfactory.diary.domain.user.User
 import jjfactory.diary.common.exception.AccessForbiddenException
+import jjfactory.diary.config.CacheConfig
+import jjfactory.diary.config.CacheConfig.*
 import jjfactory.diary.infrastructure.diary.DiaryReaderImpl
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.cache.CacheManager
+import org.springframework.cache.caffeine.CaffeineCache
 import org.springframework.transaction.annotation.Transactional
 import java.lang.reflect.Member.PUBLIC
 
@@ -25,6 +31,14 @@ class DiaryServiceImplTest(
     lateinit var entityManager: EntityManager
     @Autowired
     lateinit var diaryReader: DiaryReaderImpl
+    @Autowired
+    lateinit var cacheManager: CacheManager
+
+    @BeforeEach
+    fun setUp(){
+        cacheManager.getCache(CacheType.DIARY_INFO.cacheName)?.clear()
+    }
+
     @Test
     @Transactional
     fun writeSuccess() {
@@ -71,15 +85,14 @@ class DiaryServiceImplTest(
         diaryService.modify(user.id!!, diaryId, command2)
 
         val diary = diaryReader.getOrThrow(diaryId)
-        Assertions.assertThat(diary.type).isEqualTo(Diary.Type.DAILY)
-        Assertions.assertThat(diary.content).isEqualTo(command2.content)
+        assertThat(diary.type).isEqualTo(Diary.Type.DAILY)
+        assertThat(diary.content).isEqualTo(command2.content)
     }
 
     @Test
     @Transactional
     fun `본인 아니면 수정하려하면 익셉션`() {
         val user = testEntityFactory.ofUser()
-
         entityManager.persist(user)
 
         val user2 = testEntityFactory.ofUser()
@@ -103,8 +116,81 @@ class DiaryServiceImplTest(
             accessLevel = Diary.AccessLevel.PRIVATE
         )
 
-        Assertions.assertThatThrownBy {
+        assertThatThrownBy {
             diaryService.modify(user2.id!!, diaryId, command2)
+        }.isInstanceOf(AccessForbiddenException::class.java)
+    }
+
+    @Transactional
+    @Test
+    fun `저장 후 바로 조회 시 캐시 null`(){
+        val user = testEntityFactory.ofUser()
+        entityManager.persist(user)
+        val diary = testEntityFactory.ofPublicDiary(userId = user.id)
+        entityManager.persist(diary)
+
+        val diaryCache = cacheManager.getCache(CacheType.DIARY_INFO.cacheName)?.get(diary.id!!, DiaryInfo.Detail::class.java)
+
+        assertThat(diaryCache).isNull()
+
+        val response = diaryService.getDiary(
+            id = diary.id!!,
+            userId = user.id!!
+        )
+
+        assertThat(response.content).isEqualTo(diary.content)
+        assertThat(response.username).isEqualTo(user.username)
+    }
+
+    @Transactional
+    @Test
+    fun `캐시에 저장되고 조회 시 캐시에서 조회`(){
+        val user = testEntityFactory.ofUser()
+        entityManager.persist(user)
+        val diary = testEntityFactory.ofPublicDiary(userId = user.id)
+        entityManager.persist(diary)
+
+        diaryService.getDiary(
+            id = diary.id!!,
+            userId = user.id!!
+        )
+
+        // 수정 위한 flush
+        diary.modify(
+            content = "modified",
+            type = diary.type,
+            accessLevel = Diary.AccessLevel.ALL
+        )
+        entityManager.flush()
+
+        val response2 = diaryService.getDiary(
+            id = diary.id!!,
+            userId = user.id!!
+        )
+
+        val diaryCache = cacheManager.getCache(CacheType.DIARY_INFO.cacheName)?.get(diary.id!!, DiaryInfo.Detail::class.java)
+        assertThat(diaryCache).isNotNull
+
+        assertThat(response2.content).isEqualTo(diaryCache!!.content)
+    }
+
+    @Transactional
+    @Test
+    fun `모두 공개 아니면 다른사람이 조회하면 익셉션`(){
+        val user = testEntityFactory.ofUser()
+        entityManager.persist(user)
+
+        val user2 = testEntityFactory.ofUser()
+        entityManager.persist(user2)
+
+        val diary = testEntityFactory.ofPrivateDiary(userId = user.id)
+        entityManager.persist(diary)
+
+        assertThatThrownBy{
+            diaryService.getDiary(
+                id = diary.id!!,
+                userId = user2.id!!
+            )
         }.isInstanceOf(AccessForbiddenException::class.java)
     }
 
