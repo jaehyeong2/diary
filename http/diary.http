@@ -1,0 +1,28 @@
+
+###일기 작성
+POST http://localhost:8080/diary
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiNyIsInN1YiI6IjciLCJpYXQiOjE3MjM3NzUzNTIsImV4cCI6MTcyMzc3NzE1Mn0.Rvq_CEBVxKWHCMweDZjR4kbgQQviRs95TqjBWiNbOOSOtb5YWQ-k232aXk1ltojmTqXveJgITEuNXCUt7xbv1g
+
+
+{
+  "content": "테스트 일기야 나의 첫!",
+  "type": "DAILY",
+  "accessLevel": "ALL"
+}
+
+###일기 수정
+PATCH http://localhost:8080/diary/1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiNyIsInN1YiI6IjciLCJpYXQiOjE3MjM3NzcyMDgsImV4cCI6MTcyMzc3OTAwOH0.IrmZscd7FPIi3Wvr-H7cI7AV5ekuVVNy-Spw_6db1kTZZhYXOrYHOEUy27QJ0W8Ry4OlPKDagyDUFIiOm09s3A
+
+
+{
+"content": "테스트 일기야 나의 첫3!",
+"type": "DAILY",
+"accessLevel": "ALL"
+}
+
+### 조회
+GET http://localhost:8080/diary/1
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiNyIsInN1YiI6IjciLCJpYXQiOjE3MjM3NzcyMDgsImV4cCI6MTcyMzc3OTAwOH0.IrmZscd7FPIi3Wvr-H7cI7AV5ekuVVNy-Spw_6db1kTZZhYXOrYHOEUy27QJ0W8Ry4OlPKDagyDUFIiOm09s3A
