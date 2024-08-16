@@ -16,6 +16,22 @@ class FriendReaderImpl(
         return friendRepository.findByIdOrNull(id)
     }
 
+    override fun countBySenderIdAndStatusIs(senderId: Long, status: Friend.Status): Long {
+        return friendRepository.countBySenderIdAndStatusIs(senderId, status)
+    }
+
+    override fun countByReceiverIdAndStatusIs(receiverId: Long, status: Friend.Status): Long {
+        return friendRepository.countByReceiverIdAndStatusIs(receiverId, status)
+    }
+
+    override fun getFriendListByUserId(userId: Long): List<Friend> {
+        return friendRepository.getFriendsByUserId(userId)
+    }
+
+    override fun findBySenderIdAndReceiverId(senderId: Long, receiverId: Long): Friend? {
+        return friendRepository.findBySenderIdAndReceiverId(senderId, receiverId)
+    }
+
     override fun getOrThrow(id: Long): Friend {
         return friendRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException("friend not found")
     }

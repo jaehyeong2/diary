@@ -9,6 +9,7 @@ import jjfactory.diary.domain.user.DuplicateUserNameException
 import jjfactory.diary.domain.user.UserCommand
 import jjfactory.diary.domain.user.UserReader
 import jjfactory.diary.infrastructure.user.UserRepository
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
@@ -25,7 +26,9 @@ class AuthServiceImpl(
     private val userRepository: UserRepository
 ) : AuthService {
 
-    private val ACCESS_TOKEN_LIFESPAN = 60 * 30
+    @Value("\${security.jwt.token.access-token-span}")
+    lateinit var ACCESS_TOKEN_LIFESPAN: String
+
     private val REFRESH_TOKEN_LIFESPAN = 60 * 60 * 24 * 90
 
     @Transactional

@@ -18,6 +18,10 @@ class UserReaderImpl(
         return userRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException("user not found")
     }
 
+    override fun getByIdIn(ids: List<Long>): List<User> {
+        return userRepository.findAllByIdIn(ids)
+    }
+
     override fun existsByUsername(username: String): Boolean {
         return userRepository.existsByUsername(username)
     }

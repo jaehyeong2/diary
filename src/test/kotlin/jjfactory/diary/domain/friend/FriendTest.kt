@@ -1,27 +1,35 @@
 package jjfactory.diary.domain.friend
 
 import jjfactory.diary.TestEntityFactory
-import jjfactory.diary.domain.user.User
-import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.*
-import org.junit.jupiter.api.Assertions.*
+import jjfactory.diary.common.exception.AccessForbiddenException
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 
-class FriendTest{
+class FriendTest {
     private val testEntityFactory = TestEntityFactory()
 
     @Test
-    fun acceptRequest(){
-        val user = testEntityFactory.ofUser()
-        val user2 = testEntityFactory.ofUser()
-
+    fun `요청 받은 대상이 아니면 수락 불가능`() {
         val friend = Friend(
-            sender = user,
-            receiver = user2
+            senderId = 2L,
+            receiverId = 3L
+        )
+
+        assertThatThrownBy {
+            friend.accept(2L)
+        }.isInstanceOf(AccessForbiddenException::class.java)
+    }
+
+    @Test
+    fun `친구 요청 수락 성공`() {
+        val friend = Friend(
+            senderId = 2L,
+            receiverId = 3L
         )
 
         assertThat(friend.status).isEqualTo(Friend.Status.REQUESTED)
-        friend.accept()
+        friend.accept(3L)
 
         assertThat(friend.status).isEqualTo(Friend.Status.ACCEPTED)
     }

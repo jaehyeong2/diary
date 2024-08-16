@@ -33,6 +33,7 @@ class CacheConfig {
 
 
     enum class CacheType(val cacheName: String, val expire: Long, val maxSize: Long) {
-        DIARY_INFO("diary_detail", 60 * 60, 1000)
+        DIARY_INFO("diary_detail", 60 * 60, 1000),
+        FRIEND_LIST("friend_list", 60 * 60, 1000),
     }
 }

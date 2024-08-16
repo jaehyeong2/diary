@@ -8,9 +8,9 @@ Content-Type: application/json
   "lastName" : "1234",
   "firstName" : "1234",
   "phone": "1234",
-  "username": "lee2",
+  "username": "lee222",
   "gender": "MALE",
-  "email" : "wogud1514@naver.com"
+  "email" : "wogud1513@naver.com"
 }
 
 
@@ -20,5 +20,5 @@ Content-Type: application/json
 
 {
   "password" : "1234",
-  "email" : "wogud1514@naver.com"
+  "email" : "wogud1513@naver.com"
 }

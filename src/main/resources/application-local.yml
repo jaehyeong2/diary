@@ -25,6 +25,8 @@ security:
   jwt:
     token:
       secret-key: test1test2test3FMETR9bzr4D79QUgeG7zujVfLRxcSrY6KHuhTVY4gZjAbCepNpAxJ46Vec5C4VQfSuH5HfYdX95PNzhYSrjFdbAq4vHDKhe3SEB7kMhdummytest1
+      # 60 * 60
+      access-token-span: 3600
 
 
 application:

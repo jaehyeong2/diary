@@ -1,4 +1,4 @@
-package jjfactory.diary.presentation
+package jjfactory.diary.presentation.auth
 
 import jjfactory.diary.application.AuthFacade
 import jjfactory.diary.common.response.CommonResponse
@@ -30,8 +30,3 @@ class AuthApi(
     }
 
 }
-
-data class LoginRequest(
-    val email: String,
-    val password: String
-)
