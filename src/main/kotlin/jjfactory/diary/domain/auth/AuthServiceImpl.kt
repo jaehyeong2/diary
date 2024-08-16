@@ -1,11 +1,15 @@
 package jjfactory.diary.domain.auth
 
+import io.jsonwebtoken.Claims
+import jakarta.servlet.http.HttpServletRequest
 import jjfactory.diary.common.exception.BadCredentialsException
 import jjfactory.diary.config.security.JwtProvider
+import jjfactory.diary.config.security.UserAuthentication
 import jjfactory.diary.domain.user.DuplicateUserNameException
 import jjfactory.diary.domain.user.UserCommand
 import jjfactory.diary.domain.user.UserReader
 import jjfactory.diary.infrastructure.user.UserRepository
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -57,6 +61,24 @@ class AuthServiceImpl(
             value = token,
             expiredAt = expiredAt
         )
+    }
+
+    override fun authenticate(accessToken: String, request: HttpServletRequest) {
+        // 토큰 정보 취득
+        val jwtData = jwtProvider.extract(accessToken)
+
+        validateToken(jwtData)
+
+        val isAuthenticated = UserAuthentication(token = accessToken, claims = jwtData)
+        SecurityContextHolder.getContext().authentication = isAuthenticated
+    }
+
+    private fun validateToken(jwtData: Claims) {
+//        val isValidToken = managerAuthKeyRepository.existsByIdAndTokenAndExpireDtGreaterThan(
+//            jwtData.authKeyId, jwtData.token, LocalDateTime.now()
+//        )
+//
+//        if (!isValidToken) throw InvalidAccessTokenException()
     }
 
     private fun generateRefreshToken(userId: Long): AuthInfo.Token {

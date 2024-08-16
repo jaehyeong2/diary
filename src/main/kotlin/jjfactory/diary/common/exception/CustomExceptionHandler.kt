@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
@@ -42,5 +43,17 @@ class CustomExceptionHandler {
             message = ex.message
         )
         return ResponseEntity(errorResponse, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException::class)
+    fun handleHttpMessageNotReadableException(
+        ex: HttpMessageNotReadableException,
+        request: HttpServletRequest
+    ): ResponseEntity<ErrorResponseBody> {
+        val errorResponse = ErrorResponseBody(
+            status = HttpStatus.BAD_REQUEST.value(),
+            message = ex.message
+        )
+        return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
     }
 }

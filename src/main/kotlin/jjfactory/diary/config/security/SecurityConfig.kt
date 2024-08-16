@@ -14,18 +14,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig {
+class SecurityConfig(
+    private val authenticationFilter: AuthenticationFilter,
+    private val authExceptionHandlerFilter: AuthExceptionHandlerFilter
+) {
 
     @Value("\${application.Environment}")
     private lateinit var environment: String
-
-    @Bean
-    fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
-    }
-
     private val TEST_URLS = arrayOf(
-        "/**",
+//        "/**",
         "/test",
         "/test/**"
     )
@@ -54,6 +51,9 @@ class SecurityConfig {
         }
             .csrf { csrf -> csrf.disable() }
             .cors { it }
+
+        http.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
+        http.addFilterBefore(authExceptionHandlerFilter, authenticationFilter::class.java)
 
         return http.build()
     }

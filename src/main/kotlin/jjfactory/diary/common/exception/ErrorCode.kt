@@ -25,6 +25,12 @@ enum class ErrorCode(
     CREDENTIAL_INVALID_ERROR("Toast.Login.ErrorDesc.IncorrectPassword", "A", HttpStatus.UNAUTHORIZED),
     CREDENTIAL_NOT_MATCH_ERROR("Manager.PasswordSettings.ErrorMsg.CurrentPasswordIncorrect", "0004", HttpStatus.BAD_REQUEST),
 
+    AUTH_INVALID_ACCESS_TOKEN("Invalid access token", "0003"),
+    AUTH_EXPIRED_ACCESS_TOKEN("Expired access token", "0010"),
+    AUTH_INVALID_REFRESH_TOKEN("Invalid refresh token", "0006"),
+    ALREADY_DELETED_MANAGER("기업 설정이 안 된 매니저는 로그인 할 수 없습니다.", "0007"),
+    AUTH_NEED_ADMIN_ROLE("어드민 권한이 필요합니다.", "0012"),
+
     /**
      * 계정 관련 오류
      * Use prefix with 'AC'
