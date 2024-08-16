@@ -2,6 +2,7 @@ package jjfactory.diary.domain.diary
 
 import jjfactory.diary.domain.user.UserReader
 import jjfactory.diary.common.exception.AccessForbiddenException
+import jjfactory.diary.config.CacheConfig
 import jjfactory.diary.infrastructure.diary.DiaryRepository
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
@@ -27,7 +28,7 @@ class DiaryServiceImpl(
         return diary.id!!
     }
 
-    @CacheEvict
+    @CacheEvict(cacheNames = ["diary_detail"], key = "#id")
     override fun modify(userId: Long, id: Long, command: DiaryCommand.Modify) {
         val diary = diaryReader.getOrThrow(id)
         if (diary.userId != userId) throw AccessForbiddenException()
@@ -48,7 +49,7 @@ class DiaryServiceImpl(
         user.pointDown(3)
     }
 
-    @Cacheable
+    @Cacheable(cacheNames = ["diary_detail"], key = "#id")
     @Transactional(readOnly = true)
     override fun getDiary(id: Long, userId: Long): DiaryInfo.Detail {
         val diary = diaryReader.getOrThrow(id)
@@ -71,7 +72,7 @@ class DiaryServiceImpl(
 
     }
 
-    @CacheEvict
+    @CacheEvict(cacheNames = ["diary_detail"], key = "#id")
     override fun openToAll(userId: Long, id: Long) {
         val diary = diaryReader.getOrThrow(id)
         val owner = userReader.getOrThrow(diary.userId)
@@ -82,7 +83,7 @@ class DiaryServiceImpl(
         diary.openToAll()
     }
 
-    @CacheEvict
+    @CacheEvict(cacheNames = ["diary_detail"], key = "#id")
     override fun hide(userId: Long, id: Long) {
         val diary = diaryReader.getOrThrow(id)
         val owner = userReader.getOrThrow(diary.userId)
