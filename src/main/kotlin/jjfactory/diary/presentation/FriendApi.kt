@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
-@RequestMapping("/friend")
+@RequestMapping("/friends")
 @RestController
 class FriendApi(
     private val friendService: FriendService
@@ -24,6 +24,15 @@ class FriendApi(
 
         return CommonResponse(
             friendService.getFriendListByUserId(userId = userAuthentication.getUserId())
+        )
+    }
+
+    @GetMapping("/request")
+    fun getMyRequestList(@RequestParam accepted: Boolean): CommonResponse<List<UserInfo.Detail>> {
+        val userAuthentication = SecurityContextHolder.getContext().authentication as UserAuthentication
+
+        return CommonResponse(
+            friendService.getRequestListByUserId(userId = userAuthentication.getUserId(), accepted)
         )
     }
 

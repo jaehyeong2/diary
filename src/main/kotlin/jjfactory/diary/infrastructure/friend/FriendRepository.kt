@@ -9,7 +9,7 @@ interface FriendRepository: JpaRepository<Friend, Long> {
     fun countBySenderIdAndStatusIs(senderId: Long, status: Friend.Status): Long
     fun countByReceiverIdAndStatusIs(receiverId: Long, status: Friend.Status): Long
 
-    @Query(nativeQuery = true, value = "select * from friend f where (f.sender_id = ?1 or f.receiver_id = ?1) and status = 'ACCEPTED' order by f.updated_at desc")
-    fun getFriendsByUserId(userId: Long): List<Friend>
+    @Query(nativeQuery = true, value = "select * from friend f where (f.sender_id = ?1 or f.receiver_id = ?1) and status = ?2 order by f.updated_at desc")
+    fun getFriendsByUserId(userId: Long, status: String): List<Friend>
 
 }

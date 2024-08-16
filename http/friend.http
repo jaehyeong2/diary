@@ -1,0 +1,12 @@
+### 요청
+POST http://localhost:8080/friends?receiverId=22
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiNyIsInN1YiI6IjciLCJpYXQiOjE3MjM3OTEzMzUsImV4cCI6MTcyMzc5NDkzNX0.7wPuN6QMzuhpb3Drf7fFNRr5nRS7wN6sS-kWdviZafC9yMY_3XGJ56mWYPpc4hqOlBsCIxMGD4s0Sak2PtobVA
+
+
+### 친구 목록 조회
+GET http://localhost:8080/friends
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiMjIiLCJzdWIiOiIyMiIsImlhdCI6MTcyMzc5MTk3MCwiZXhwIjoxNzIzNzk1NTcwfQ.Uq1_d34CRo6LIR1V0LfSqIN6uJKq2Y8w62eIqB6gsZ6jWxFwDBt4-tqvFldjrxoaTLwEsUv6T9pLUvjMW-Gn9g
+
+### 친구 수락
+POST http://127.0.0.1:8080/friends/3/accept
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiMjIiLCJzdWIiOiIyMiIsImlhdCI6MTcyMzc5MTk3MCwiZXhwIjoxNzIzNzk1NTcwfQ.Uq1_d34CRo6LIR1V0LfSqIN6uJKq2Y8w62eIqB6gsZ6jWxFwDBt4-tqvFldjrxoaTLwEsUv6T9pLUvjMW-Gn9g

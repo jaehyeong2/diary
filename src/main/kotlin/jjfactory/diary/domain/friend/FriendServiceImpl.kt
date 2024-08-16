@@ -17,6 +17,8 @@ class FriendServiceImpl(
     private val userReader: UserReader
 ) : FriendService {
 
+    private val FRIEND_LIMIT = 20
+
     //친구 20명까지
     //fixme 친구 목록에 쌍방 같은 사람들어가면 한 로우로 되어야하는게 아니니 재형아
     override fun sendRequest(senderId: Long, receiverId: Long): Long {
@@ -24,11 +26,11 @@ class FriendServiceImpl(
             throw DuplicateRequestException()
         }
 
-        if (friendReader.countBySenderIdAndStatusIs(senderId, status = Friend.Status.ACCEPTED) >= 20) {
+        if (friendReader.countBySenderIdAndStatusIs(senderId, status = Friend.Status.ACCEPTED) >= FRIEND_LIMIT) {
             throw IllegalStateException("나의 친구 목록이 다 찼습니다.")
         }
 
-        if (friendReader.countByReceiverIdAndStatusIs(receiverId, status = Friend.Status.ACCEPTED) >= 20) {
+        if (friendReader.countByReceiverIdAndStatusIs(receiverId, status = Friend.Status.ACCEPTED) >= FRIEND_LIMIT) {
             throw IllegalStateException("상대의 친구 목록이 다 찼습니다.")
         }
 
@@ -48,8 +50,23 @@ class FriendServiceImpl(
 
 
     @Transactional(readOnly = true)
-    override fun getRequestListByUserId(userId: Long) {
-        TODO("Not yet implemented")
+    override fun getRequestListByUserId(userId: Long, accepted: Boolean): List<UserInfo.Detail> {
+        val friendIds = friendReader.getRequestListByUserId(userId).map {
+            if (accepted) it.senderId
+            else it.receiverId
+        }
+
+        return userReader.getByIdIn(friendIds).map {
+            UserInfo.Detail(
+                lastName = it.lastName,
+                firstName = it.firstName,
+                phone = it.phone,
+                gender = it.gender.toString(),
+                email = it.email,
+                username = it.username,
+                point = it.point
+            )
+        }
     }
 
     //todo 성능 안좋으면 개선

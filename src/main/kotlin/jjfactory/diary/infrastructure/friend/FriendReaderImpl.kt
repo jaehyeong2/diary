@@ -24,8 +24,12 @@ class FriendReaderImpl(
         return friendRepository.countByReceiverIdAndStatusIs(receiverId, status)
     }
 
+    override fun getRequestListByUserId(userId: Long): List<Friend> {
+        return friendRepository.getFriendsByUserId(userId, status = Friend.Status.REQUESTED.toString())
+    }
+
     override fun getFriendListByUserId(userId: Long): List<Friend> {
-        return friendRepository.getFriendsByUserId(userId)
+        return friendRepository.getFriendsByUserId(userId, status = Friend.Status.ACCEPTED.toString())
     }
 
     override fun findBySenderIdAndReceiverId(senderId: Long, receiverId: Long): Friend? {

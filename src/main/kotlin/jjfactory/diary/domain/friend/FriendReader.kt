@@ -11,4 +11,5 @@ interface FriendReader {
     fun countBySenderIdAndStatusIs(senderId: Long, status: Friend.Status): Long
     fun countByReceiverIdAndStatusIs(receiverId: Long, status: Friend.Status): Long
     fun getFriendListByUserId(userId: Long): List<Friend>
+    fun getRequestListByUserId(userId: Long): List<Friend>
 }
