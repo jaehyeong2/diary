@@ -1,9 +1,8 @@
 package jjfactory.diary.domain.group
 
 import jakarta.persistence.*
-import jjfactory.diary.domain.user.User
 import org.hibernate.annotations.CreationTimestamp
-import org.springframework.data.annotation.LastModifiedDate
+import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
 @Table(name = "groups")
@@ -13,7 +12,7 @@ class Group(
 
     @CreationTimestamp
     var createdAt: LocalDateTime? = null,
-    @LastModifiedDate
+    @UpdateTimestamp
     var updatedAt: LocalDateTime? = null,
 ) {
     @Id

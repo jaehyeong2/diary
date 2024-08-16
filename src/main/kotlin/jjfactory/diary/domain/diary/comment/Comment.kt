@@ -4,7 +4,7 @@ import jakarta.persistence.*
 import jjfactory.diary.domain.diary.Diary
 import jjfactory.diary.domain.user.User
 import org.hibernate.annotations.CreationTimestamp
-import org.springframework.data.annotation.LastModifiedDate
+import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
 @Entity
@@ -20,7 +20,7 @@ class Comment(
 
     @CreationTimestamp
     var createdAt: LocalDateTime? = null,
-    @LastModifiedDate
+    @UpdateTimestamp
     var updatedAt: LocalDateTime? = null,
 ) {
     @Id
@@ -28,7 +28,7 @@ class Comment(
     val id: Long? = null
 
 
-    fun modify(content: String){
+    fun modify(content: String) {
         this.content = content
     }
 }

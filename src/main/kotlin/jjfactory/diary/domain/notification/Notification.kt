@@ -2,7 +2,7 @@ package jjfactory.diary.domain.notification
 
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
-import org.springframework.data.annotation.LastModifiedDate
+import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
 @Entity
@@ -17,14 +17,14 @@ class Notification(
 
     @CreationTimestamp
     var createdAt: LocalDateTime? = null,
-    @LastModifiedDate
+    @UpdateTimestamp
     var updatedAt: LocalDateTime? = null,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 
-    fun read(){
+    fun read() {
         isRead = true
     }
 }

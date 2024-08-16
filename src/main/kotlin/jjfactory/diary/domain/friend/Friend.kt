@@ -3,7 +3,7 @@ package jjfactory.diary.domain.friend
 import jakarta.persistence.*
 import jjfactory.diary.common.exception.AccessForbiddenException
 import org.hibernate.annotations.CreationTimestamp
-import org.springframework.data.annotation.LastModifiedDate
+import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
 @Entity
@@ -16,7 +16,7 @@ class Friend(
 
     @CreationTimestamp
     var createdAt: LocalDateTime? = null,
-    @LastModifiedDate
+    @UpdateTimestamp
     var updatedAt: LocalDateTime? = null,
 ) {
     @Id
@@ -27,7 +27,7 @@ class Friend(
         REQUESTED, ACCEPTED
     }
 
-    fun accept(userId: Long){
+    fun accept(userId: Long) {
         if (receiverId != userId) throw AccessForbiddenException()
         status = Status.ACCEPTED
     }
