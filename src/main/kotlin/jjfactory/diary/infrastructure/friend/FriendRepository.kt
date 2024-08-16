@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query
 
 interface FriendRepository: JpaRepository<Friend, Long> {
     fun findBySenderIdAndReceiverId(senderId: Long, receiverId: Long): Friend?
+    fun countByReceiverId(receiverId: Long): Long
     fun countBySenderIdAndStatusIs(senderId: Long, status: Friend.Status): Long
     fun countByReceiverIdAndStatusIs(receiverId: Long, status: Friend.Status): Long
 
