@@ -1,8 +1,17 @@
+### 로그인
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "password" : "1234",
+  "email" : "wogud1513@naver.com"
+}
+
 
 ###일기 작성
 POST http://localhost:8080/diary
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiNyIsInN1YiI6IjciLCJpYXQiOjE3MjM3NzUzNTIsImV4cCI6MTcyMzc3NzE1Mn0.Rvq_CEBVxKWHCMweDZjR4kbgQQviRs95TqjBWiNbOOSOtb5YWQ-k232aXk1ltojmTqXveJgITEuNXCUt7xbv1g
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiMjIiLCJzdWIiOiIyMiIsImlhdCI6MTcyMzg2NzkxNiwiZXhwIjoxNzIzODcxNTE2fQ.5HnxHSqkqx0XInmJ-Jj-yaWKGO9cXwTL9n9UfltWbYG07h2p5k6LSRVoyByTrPbzogWrEcVXmrWDU-Gmg-TH1g
 
 
 {
@@ -24,5 +33,5 @@ Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoi
 }
 
 ### 조회
-GET http://localhost:8080/diary/1
-Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiNyIsInN1YiI6IjciLCJpYXQiOjE3MjM3ODAyNzEsImV4cCI6MTcyMzc4MjA3MX0.Bn_4QRTEYm8dCwQyVldHNqwjVScwxB7orWEiBPhlX5X6BbaaGtWWI_ZGh3VITSm6sZDAnEMKCYNQnav7kNDkIg
+GET http://localhost:8080/diary/19
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiMjIiLCJzdWIiOiIyMiIsImlhdCI6MTcyMzg4MTM4MSwiZXhwIjoxNzIzODg0OTgxfQ.Wct1G7aC8UQz4WcCWuxaHuUC_Vw0Z5KLAfm0ZmUxJ8lxdSf9ZgZQGX-R5noPa0iR48kekSPknKoMsg0GfhfOnQ

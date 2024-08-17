@@ -15,6 +15,12 @@ class DiaryApi(
     private val diaryService: DiaryService
 ) {
 
+    //todo paging
+    @GetMapping
+    fun getPublicDiaryList(): CommonResponse<List<DiaryInfo.List>>{
+        return CommonResponse(diaryService.getPublicDiaryList())
+    }
+
     @Operation(summary = "일기 조회")
     @GetMapping("/{id}")
     fun getDiary(@PathVariable id: Long): CommonResponse<DiaryInfo.Detail> {

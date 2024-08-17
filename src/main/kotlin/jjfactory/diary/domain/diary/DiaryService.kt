@@ -10,4 +10,5 @@ interface DiaryService {
     fun hide(userId: Long, id: Long)
     fun getDiaryPage(): Page<DiaryInfo.Detail>
     fun openToAll(userId: Long, id: Long)
+    fun getPublicDiaryList(): List<DiaryInfo.List>
 }

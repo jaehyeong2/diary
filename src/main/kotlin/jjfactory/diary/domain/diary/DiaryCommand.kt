@@ -5,6 +5,7 @@ import jjfactory.diary.domain.user.User
 class DiaryCommand {
     data class Create(
         val content: String,
+        val title: String,
         val type: Diary.Type,
         val accessLevel: Diary.AccessLevel
     ){
@@ -12,6 +13,7 @@ class DiaryCommand {
             return Diary(
                 userId = userId,
                 type = type,
+                title = title,
                 content = content,
                 accessLevel = accessLevel
             )
@@ -20,6 +22,7 @@ class DiaryCommand {
 
     data class Modify(
         val content: String,
+        val title: String,
         val type: Diary.Type,
         val accessLevel: Diary.AccessLevel
     )

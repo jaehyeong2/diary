@@ -36,6 +36,7 @@ class DiaryServiceImpl(
         diary.modify(
             type = command.type,
             content = command.content,
+            title = command.title,
             accessLevel = command.accessLevel
         )
     }
@@ -63,6 +64,7 @@ class DiaryServiceImpl(
         return DiaryInfo.Detail(
             id = diary.id!!,
             type = diary.type,
+            title = diary.title,
             content = diary.content,
             userId = owner.id!!,
             username = owner.username,
@@ -70,6 +72,27 @@ class DiaryServiceImpl(
             updatedAt = diary.updatedAt
         )
 
+    }
+
+    override fun getPublicDiaryList(): List<DiaryInfo.List> {
+        val diaries = diaryRepository.findAllByAccessLevelIsOrderByCreatedAtDesc(accessLevel = Diary.AccessLevel.ALL)
+
+        val writerIds = diaries.map { it.userId }
+        val userNameMap = userReader.getByIdIn(writerIds).associate { it.id to it.username }
+
+        //todo join paging
+
+        return diaries.map {
+            DiaryInfo.List(
+                id = it.id!!,
+                title = it.title,
+                type = it.type,
+                userId = it.userId,
+                username = userNameMap[it.id] ?: "",
+                createdAt = it.createdAt,
+                updatedAt = it.updatedAt
+            )
+        }
     }
 
     @CacheEvict(cacheNames = ["diary_detail"], key = "#id")

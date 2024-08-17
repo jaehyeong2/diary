@@ -3,6 +3,7 @@ package jjfactory.diary.domain.user
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
+@Transactional
 @Service
 class UserServiceImpl(
     private val userReader: UserReader,
@@ -21,6 +22,5 @@ class UserServiceImpl(
                 point = it.point
             )
         }
-
     }
 }

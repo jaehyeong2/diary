@@ -1,0 +1,11 @@
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "password" : "1234",
+  "email" : "wogud1513@naver.com"
+}
+
+###내 정보 조회
+GET http://localhost:8080/users/my
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiMjIiLCJzdWIiOiIyMiIsImlhdCI6MTcyMzg3OTc2NCwiZXhwIjoxNzIzODgzMzY0fQ.priJ41bTgn0AzQK-IOIQaAqhQXgW26Q8lpS9Yo4s0jeCBZ7XKyg2MFSHDc_mVPKU09ClZBRKPKxJVqqXly3VjQ"

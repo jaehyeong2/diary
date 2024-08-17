@@ -12,6 +12,7 @@ class Diary(
     @Enumerated(EnumType.STRING)
     var accessLevel: AccessLevel = AccessLevel.PRIVATE,
 
+    var title: String,
     @Column(columnDefinition = "TEXT")
     var content: String,
 
@@ -46,7 +47,8 @@ class Diary(
         accessLevel = AccessLevel.ALL
     }
 
-    fun modify(type: Type, content: String, accessLevel: AccessLevel) {
+    fun modify(type: Type, content: String, title: String, accessLevel: AccessLevel) {
+        this.title = title
         this.type = type
         this.accessLevel = accessLevel
         this.content = content
