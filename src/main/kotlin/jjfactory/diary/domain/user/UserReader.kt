@@ -1,5 +1,8 @@
 package jjfactory.diary.domain.user
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+
 interface UserReader {
     fun get(id: Long): User?
     fun getOrThrow(id: Long): User
@@ -7,4 +10,5 @@ interface UserReader {
     fun getOrThrowByUsername(username: String): User
     fun getOrThrowByEmail(username: String): User
     fun existsByUsername(username: String): Boolean
+    fun getUserPage(pageable: Pageable): Page<User?>
 }

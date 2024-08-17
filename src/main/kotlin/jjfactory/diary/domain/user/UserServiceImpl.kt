@@ -1,5 +1,7 @@
 package jjfactory.diary.domain.user
 
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -14,6 +16,21 @@ class UserServiceImpl(
         userReader.getOrThrow(userId).let {
             return UserInfo.Detail(
                 lastName = it.lastName,
+                firstName = it.firstName,
+                phone = it.phone,
+                gender = it.gender.toString(),
+                email = it.email,
+                username = it.username,
+                point = it.point
+            )
+        }
+    }
+
+    @Transactional(readOnly = true)
+    override fun getUserPage(pageable: Pageable): Page<UserInfo.List> {
+        return userReader.getUserPage(pageable).map {
+            UserInfo.List(
+                lastName = it!!.lastName,
                 firstName = it.firstName,
                 phone = it.phone,
                 gender = it.gender.toString(),

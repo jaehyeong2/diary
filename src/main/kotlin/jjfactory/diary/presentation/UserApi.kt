@@ -1,12 +1,14 @@
 package jjfactory.diary.presentation
 
 import io.swagger.v3.oas.annotations.Operation
+import jjfactory.diary.common.response.CommonPagingResponse
 import jjfactory.diary.common.response.CommonResponse
+import jjfactory.diary.common.response.PagingResponse
 import jjfactory.diary.config.security.AuthSupporter
-import jjfactory.diary.config.security.UserAuthentication
-import jjfactory.diary.domain.friend.FriendService
 import jjfactory.diary.domain.user.UserInfo
 import jjfactory.diary.domain.user.UserService
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -26,5 +28,10 @@ class UserApi(
         return CommonResponse(
             userService.getInfoByUserId(userId)
         )
+    }
+
+    @GetMapping
+    fun getUserPage(@PageableDefault pageable: Pageable): CommonPagingResponse<UserInfo.List>{
+        return CommonPagingResponse(PagingResponse( userService.getUserPage(pageable)))
     }
 }

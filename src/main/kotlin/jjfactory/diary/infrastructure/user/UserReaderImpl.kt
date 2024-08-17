@@ -3,6 +3,8 @@ package jjfactory.diary.infrastructure.user
 import jjfactory.diary.domain.user.User
 import jjfactory.diary.domain.user.UserReader
 import jjfactory.diary.common.exception.ResourceNotFoundException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 
@@ -24,6 +26,16 @@ class UserReaderImpl(
 
     override fun existsByUsername(username: String): Boolean {
         return userRepository.existsByUsername(username)
+    }
+
+    override fun getUserPage(pageable: Pageable): Page<User?> {
+        return userRepository.findPage(pageable) {
+            select(
+                entity(User::class)
+            ).from(
+                entity(User::class)
+            )
+        }
     }
 
     override fun getOrThrowByUsername(username: String): User {
