@@ -2,6 +2,7 @@ package jjfactory.diary.presentation
 
 import io.swagger.v3.oas.annotations.Operation
 import jjfactory.diary.common.response.CommonResponse
+import jjfactory.diary.config.security.AuthSupporter
 import jjfactory.diary.config.security.UserAuthentication
 import jjfactory.diary.domain.friend.FriendService
 import jjfactory.diary.domain.user.UserInfo
@@ -22,40 +23,40 @@ class FriendApi(
     @Operation(summary = "친구 목록")
     @GetMapping
     fun getMyFriendList(): CommonResponse<List<UserInfo.Detail>> {
-        val userAuthentication = SecurityContextHolder.getContext().authentication as UserAuthentication
+        val userId = AuthSupporter.getLoginUserId()
 
         return CommonResponse(
-            friendService.getFriendListByUserId(userId = userAuthentication.getUserId())
+            friendService.getFriendListByUserId(userId = userId)
         )
     }
 
     @Operation(summary = "친구 요청 목록")
     @GetMapping("/request")
     fun getMyRequestList(@RequestParam accepted: Boolean): CommonResponse<List<UserInfo.Detail>> {
-        val userAuthentication = SecurityContextHolder.getContext().authentication as UserAuthentication
+        val userId = AuthSupporter.getLoginUserId()
 
         return CommonResponse(
-            friendService.getRequestListByUserId(userId = userAuthentication.getUserId(), accepted)
+            friendService.getRequestListByUserId(userId = userId, accepted)
         )
     }
 
     @Operation(summary = "친구 요청")
     @PostMapping
     fun sendFriendRequest(@RequestParam receiverId: Long): CommonResponse<Long> {
-        val userAuthentication = SecurityContextHolder.getContext().authentication as UserAuthentication
+        val userId = AuthSupporter.getLoginUserId()
 
         return CommonResponse(
-            friendService.sendRequest(senderId = userAuthentication.getUserId(), receiverId = receiverId)
+            friendService.sendRequest(senderId = userId, receiverId = receiverId)
         )
     }
 
     @Operation(summary = "친구 수락")
     @PostMapping("/{id}/accept")
     fun acceptRequest(@PathVariable id: Long): CommonResponse<Unit> {
-        val userAuthentication = SecurityContextHolder.getContext().authentication as UserAuthentication
+        val userId = AuthSupporter.getLoginUserId()
 
         return CommonResponse(
-            friendService.accept(userId = userAuthentication.getUserId(), id = id)
+            friendService.accept(userId = userId, id = id)
         )
     }
 }

@@ -2,6 +2,7 @@ package jjfactory.diary.presentation
 
 import io.swagger.v3.oas.annotations.Operation
 import jjfactory.diary.common.response.CommonResponse
+import jjfactory.diary.config.security.AuthSupporter
 import jjfactory.diary.config.security.UserAuthentication
 import jjfactory.diary.domain.diary.DiaryCommand
 import jjfactory.diary.domain.diary.DiaryInfo
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/diary")
 class DiaryApi(
-    private val diaryService: DiaryService
+    private val diaryService: DiaryService,
 ) {
 
     //todo paging
@@ -24,18 +25,18 @@ class DiaryApi(
     @Operation(summary = "일기 조회")
     @GetMapping("/{id}")
     fun getDiary(@PathVariable id: Long): CommonResponse<DiaryInfo.Detail> {
-        val userAuthentication = SecurityContextHolder.getContext().authentication as UserAuthentication
-        return CommonResponse(diaryService.getDiary(id, userAuthentication.getUserId()))
+        val userId = AuthSupporter.getLoginUserId()
+        return CommonResponse(diaryService.getDiary(id, userId))
     }
 
     @Operation(summary = "일기 작성")
     @PostMapping
     fun writeDiary(@RequestBody command: DiaryCommand.Create): CommonResponse<Long> {
-        val userAuthentication = SecurityContextHolder.getContext().authentication as UserAuthentication
+        val userId = AuthSupporter.getLoginUserId()
 
         return CommonResponse(
             diaryService.write(
-                userId = userAuthentication.getUserId(),
+                userId = userId,
                 command = command
             )
         )
@@ -44,10 +45,10 @@ class DiaryApi(
     @Operation(summary = "일기 수정")
     @PatchMapping("/{id}")
     fun modify(@PathVariable id: Long, @RequestBody command: DiaryCommand.Modify): CommonResponse<Unit> {
-        val userAuthentication = SecurityContextHolder.getContext().authentication as UserAuthentication
+        val userId = AuthSupporter.getLoginUserId()
 
         diaryService.modify(
-            userId = userAuthentication.getUserId(),
+            userId = userId,
             id = id,
             command = command
         )
@@ -58,8 +59,10 @@ class DiaryApi(
     @Operation(summary = "일기 삭제")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable id: Long): CommonResponse<Unit> {
+        val userId = AuthSupporter.getLoginUserId()
+
         diaryService.delete(
-            userId = 2L,
+            userId = userId,
             id = id,
         )
 
@@ -69,8 +72,10 @@ class DiaryApi(
     @Operation(summary = "일기 프라이빗으로 변경")
     @PostMapping("/{id}/hide")
     fun hide(@PathVariable id: Long): CommonResponse<Unit> {
+        val userId = AuthSupporter.getLoginUserId()
+
         diaryService.hide(
-            userId = 2L,
+            userId = userId,
             id = id,
         )
 
@@ -79,8 +84,10 @@ class DiaryApi(
 
     @PostMapping("/{id}/open")
     fun open(@PathVariable id: Long): CommonResponse<Unit> {
+        val userId = AuthSupporter.getLoginUserId()
+
         diaryService.openToAll(
-            userId = 2L,
+            userId = userId,
             id = id,
         )
 
