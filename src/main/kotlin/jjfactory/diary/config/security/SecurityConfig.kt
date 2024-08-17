@@ -22,7 +22,7 @@ class SecurityConfig(
     @Value("\${application.Environment}")
     private lateinit var environment: String
     private val TEST_URLS = arrayOf(
-//        "/**",
+        "/**",
         "/test",
         "/test/**"
     )

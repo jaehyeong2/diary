@@ -42,6 +42,10 @@ dependencies {
 	implementation("com.linecorp.kotlin-jdsl:jpql-render:3.5.1")
 	implementation("com.linecorp.kotlin-jdsl:spring-data-jpa-support:3.5.1")
 
+
+	//swagger
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
+
 	//ai
 //	implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter")
 
