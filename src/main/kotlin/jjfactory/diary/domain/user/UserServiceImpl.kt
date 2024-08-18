@@ -15,6 +15,7 @@ class UserServiceImpl(
     override fun getInfoByUserId(userId: Long): UserInfo.Detail {
         userReader.getOrThrow(userId).let {
             return UserInfo.Detail(
+                id = it.id!!,
                 lastName = it.lastName,
                 firstName = it.firstName,
                 phone = it.phone,
@@ -30,7 +31,8 @@ class UserServiceImpl(
     override fun getUserPage(pageable: Pageable): Page<UserInfo.List> {
         return userReader.getUserPage(pageable).map {
             UserInfo.List(
-                lastName = it!!.lastName,
+                id = it?.id!!,
+                lastName = it.lastName,
                 firstName = it.firstName,
                 phone = it.phone,
                 gender = it.gender.toString(),

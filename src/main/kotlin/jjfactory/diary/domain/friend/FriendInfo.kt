@@ -1,11 +1,10 @@
-package jjfactory.diary.domain.user
+package jjfactory.diary.domain.friend
 
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
 
-class UserInfo {
+class FriendInfo {
     data class Detail(
-        val id: Long,
         val lastName: String,
         val firstName: String,
         val phone: String,
@@ -16,13 +15,12 @@ class UserInfo {
     )
 
     data class List(
-        val id: Long,
         val lastName: String,
         val firstName: String,
         val phone: String,
         val gender: String,
         val email: String,
         val username: String,
-        val point: Int
+        val point: Int,
     )
 }

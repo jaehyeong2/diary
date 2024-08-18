@@ -58,6 +58,7 @@ class FriendServiceImpl(
 
         return userReader.getByIdIn(friendIds).map {
             UserInfo.Detail(
+                id = it.id!!,
                 lastName = it.lastName,
                 firstName = it.firstName,
                 phone = it.phone,
@@ -82,6 +83,7 @@ class FriendServiceImpl(
 
         return userReader.getByIdIn(friendIds).map {
             UserInfo.Detail(
+                id = it.id!!,
                 lastName = it.lastName,
                 firstName = it.firstName,
                 phone = it.phone,
