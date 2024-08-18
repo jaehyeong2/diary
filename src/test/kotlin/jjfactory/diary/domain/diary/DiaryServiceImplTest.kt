@@ -48,6 +48,7 @@ class DiaryServiceImplTest(
 
         val command = DiaryCommand.Create(
             content = "안녕 오늘 일기야",
+            title = "안녕 오늘 일기야",
             type = Diary.Type.DAILY,
             accessLevel = Diary.AccessLevel.PRIVATE
         )
@@ -67,6 +68,7 @@ class DiaryServiceImplTest(
 
         val command = DiaryCommand.Create(
             content = "안녕 오늘 일기야",
+            title = "안녕 오늘 일기야",
             type = Diary.Type.DAILY,
             accessLevel = Diary.AccessLevel.PRIVATE
         )
@@ -79,6 +81,7 @@ class DiaryServiceImplTest(
         val command2 = DiaryCommand.Modify(
             content = "안녕 오늘 일기야",
             type = Diary.Type.DAILY,
+            title = "안녕 오늘 일기야",
             accessLevel = Diary.AccessLevel.PRIVATE
         )
 
@@ -102,6 +105,7 @@ class DiaryServiceImplTest(
         val command = DiaryCommand.Create(
             content = "안녕 오늘 일기야",
             type = Diary.Type.DAILY,
+            title = "안녕 오늘 일기야",
             accessLevel = Diary.AccessLevel.PRIVATE
         )
 
@@ -113,6 +117,7 @@ class DiaryServiceImplTest(
         val command2 = DiaryCommand.Modify(
             content = "안녕 오늘 일기야",
             type = Diary.Type.DAILY,
+            title = "안녕 오늘 일기야",
             accessLevel = Diary.AccessLevel.PRIVATE
         )
 
@@ -159,6 +164,7 @@ class DiaryServiceImplTest(
         diary.modify(
             content = "modified",
             type = diary.type,
+            title = "안녕 오늘 일기야",
             accessLevel = Diary.AccessLevel.ALL
         )
         entityManager.flush()

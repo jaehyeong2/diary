@@ -20,6 +20,7 @@ class TestEntityFactory {
     fun ofPrivateDiary(userId: Long? = null): Diary {
         return Diary(
             userId = userId ?: 2L,
+            title = "test title",
             content = "안녕 오늘 일기야",
             type = Diary.Type.DAILY,
             accessLevel = Diary.AccessLevel.PRIVATE
@@ -29,6 +30,7 @@ class TestEntityFactory {
     fun ofPublicDiary(userId: Long? = null): Diary {
         return Diary(
             userId = userId ?: 2L,
+            title = "test title",
             content = "안녕 오늘 일기야",
             type = Diary.Type.DAILY,
             accessLevel = Diary.AccessLevel.ALL

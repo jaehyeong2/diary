@@ -21,6 +21,7 @@ class DiaryReaderImplTest {
         val diary = Diary(
             type = Diary.Type.DAILY,
             content = "test",
+            title = "안녕 오늘 일기야",
             userId = 2L
         )
 
