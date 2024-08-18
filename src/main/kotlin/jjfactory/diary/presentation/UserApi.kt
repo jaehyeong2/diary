@@ -37,7 +37,7 @@ class UserApi(
         val userId = AuthSupporter.getLoginUserId()
 
         return CommonResponse(
-            userService.getInfoByUserId(userId)
+            userService.getInfoByUserId(id)
         )
     }
 

@@ -3,9 +3,7 @@ package jjfactory.diary.application
 import jjfactory.diary.domain.diary.DiaryService
 import jjfactory.diary.domain.diary.comment.CommentCommand
 import jjfactory.diary.domain.diary.comment.CommentService
-import jjfactory.diary.domain.notification.Notification
-import jjfactory.diary.domain.notification.NotificationType
-import jjfactory.diary.infrastructure.notification.NotificationRepository
+import jjfactory.diary.domain.notification.NotificationService
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -13,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 class CommentFacade(
     private val commentService: CommentService,
     private val diaryService: DiaryService,
-    private val notificationRepository: NotificationRepository
+    private val notificationService: NotificationService
 ) {
 
     @Transactional
@@ -21,13 +19,10 @@ class CommentFacade(
         val commentId = commentService.create(userId = userId, command = command)
         val diary = diaryService.getDiary(id = command.diaryId, userId = userId)
 
-        val initNotification = Notification(
+        notificationService.storeCommentNotification(
             sourceUserId = userId,
-            targetUserId = diary.userId,
-            type = NotificationType.WRITE_COMMENT
+            targetUserId = diary.userId
         )
-
-        notificationRepository.save(initNotification)
 
         return commentId
     }

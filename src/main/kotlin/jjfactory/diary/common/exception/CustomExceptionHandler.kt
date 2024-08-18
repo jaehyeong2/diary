@@ -17,8 +17,8 @@ class CustomExceptionHandler {
     private lateinit var environment: String
 
     @ExceptionHandler(BizBaseException::class)
-    fun handleBizException(ex: BizBaseException): ErrorResponseBody {
-        return ErrorResponseBody(ex)
+    fun handleBizException(ex: BizBaseException): ResponseEntity<ErrorResponseBody> {
+        return ResponseEntity(ErrorResponseBody(ex), HttpStatus.CONFLICT)
     }
 
     @ExceptionHandler(AccessForbiddenException::class)
