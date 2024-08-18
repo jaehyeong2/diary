@@ -1,9 +1,11 @@
 package jjfactory.diary.domain.diary
 
-import jjfactory.diary.domain.user.UserReader
 import jjfactory.diary.common.exception.AccessForbiddenException
-import jjfactory.diary.config.CacheConfig
+import jjfactory.diary.common.exception.DuplicateRequestException
+import jjfactory.diary.domain.diary.report.DiaryReport
+import jjfactory.diary.domain.user.UserReader
 import jjfactory.diary.infrastructure.diary.DiaryRepository
+import jjfactory.diary.infrastructure.diary.report.DiaryReportRepository
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
@@ -15,7 +17,8 @@ import org.springframework.transaction.annotation.Transactional
 class DiaryServiceImpl(
     private val diaryRepository: DiaryRepository,
     private val diaryReader: DiaryReader,
-    private val userReader: UserReader
+    private val userReader: UserReader,
+    private val diaryReportRepository: DiaryReportRepository
 ) : DiaryService {
 
     override fun write(userId: Long, command: DiaryCommand.Create): Long {
@@ -55,7 +58,7 @@ class DiaryServiceImpl(
     override fun getDiary(id: Long, userId: Long): DiaryInfo.Detail {
         val diary = diaryReader.getOrThrow(id)
 
-        if (diary.accessLevel == Diary.AccessLevel.PRIVATE && diary.userId != userId){
+        if (diary.accessLevel == Diary.AccessLevel.PRIVATE && diary.userId != userId) {
             throw AccessForbiddenException()
         }
 
@@ -95,12 +98,29 @@ class DiaryServiceImpl(
         }
     }
 
+    override fun report(id: Long, reporterId: Long, command: DiaryCommand.Report): Long {
+        val diary = diaryReader.getOrThrow(id)
+        if (diary.userId == reporterId) throw IllegalArgumentException()
+
+        diaryReportRepository.findByDiaryIdAndReporterId(diaryId = diary.id!!, reporterId = reporterId)?.let {
+            throw DuplicateRequestException()
+        }
+
+        val initReport = DiaryReport(
+            diaryId = diary.id,
+            reporterId = reporterId,
+            reason = command.reason
+        )
+
+        return diaryReportRepository.save(initReport).id!!
+    }
+
     @CacheEvict(cacheNames = ["diary_detail"], key = "#id")
     override fun openToAll(userId: Long, id: Long) {
         val diary = diaryReader.getOrThrow(id)
         val owner = userReader.getOrThrow(diary.userId)
 
-        if (owner.id != userId){
+        if (owner.id != userId) {
             throw AccessForbiddenException()
         }
         diary.openToAll()
@@ -111,7 +131,7 @@ class DiaryServiceImpl(
         val diary = diaryReader.getOrThrow(id)
         val owner = userReader.getOrThrow(diary.userId)
 
-        if (owner.id != userId){
+        if (owner.id != userId) {
             throw AccessForbiddenException()
         }
 

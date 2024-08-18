@@ -26,4 +26,8 @@ class DiaryCommand {
         val type: Diary.Type,
         val accessLevel: Diary.AccessLevel
     )
+
+    data class Report(
+        val reason: String
+    )
 }

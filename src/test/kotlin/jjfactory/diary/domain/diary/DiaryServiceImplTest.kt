@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext
 import jjfactory.diary.TestEntityFactory
 import jjfactory.diary.domain.user.User
 import jjfactory.diary.common.exception.AccessForbiddenException
+import jjfactory.diary.common.exception.DuplicateRequestException
 import jjfactory.diary.config.CacheConfig
 import jjfactory.diary.config.CacheConfig.*
 import jjfactory.diary.infrastructure.diary.DiaryReaderImpl
@@ -57,6 +58,93 @@ class DiaryServiceImplTest(
             userId = user.id!!,
             command = command
         )
+    }
+
+    @Test
+    @Transactional
+    fun reportSuccess() {
+        val user = testEntityFactory.ofUser()
+        entityManager.persist(user)
+
+        val command = DiaryCommand.Create(
+            content = "안녕 오늘 일기야",
+            title = "안녕 오늘 일기야",
+            type = Diary.Type.DAILY,
+            accessLevel = Diary.AccessLevel.PRIVATE
+        )
+
+        val diaryId = diaryService.write(
+            userId = user.id!!,
+            command = command
+        )
+
+        val result = diaryService.report(
+            id = diaryId,
+            reporterId = 3000L,
+            command = DiaryCommand.Report(reason = "음란물")
+        )
+
+        assertThat(result).isNotNull
+    }
+
+    @Test
+    @Transactional
+    fun `셀프 신고 불가`() {
+        val user = testEntityFactory.ofUser()
+        entityManager.persist(user)
+
+        val command = DiaryCommand.Create(
+            content = "안녕 오늘 일기야",
+            title = "안녕 오늘 일기야",
+            type = Diary.Type.DAILY,
+            accessLevel = Diary.AccessLevel.PRIVATE
+        )
+
+        val diaryId = diaryService.write(
+            userId = user.id!!,
+            command = command
+        )
+
+        assertThatThrownBy{
+            diaryService.report(
+                id = diaryId,
+                reporterId = user.id!!,
+                command = DiaryCommand.Report(reason = "음란물")
+            )
+        }.isInstanceOf(IllegalArgumentException::class.java)
+    }
+
+    @Test
+    @Transactional
+    fun `중복 신고 불가`() {
+        val user = testEntityFactory.ofUser()
+        entityManager.persist(user)
+
+        val command = DiaryCommand.Create(
+            content = "안녕 오늘 일기야",
+            title = "안녕 오늘 일기야",
+            type = Diary.Type.DAILY,
+            accessLevel = Diary.AccessLevel.PRIVATE
+        )
+
+        val diaryId = diaryService.write(
+            userId = user.id!!,
+            command = command
+        )
+
+        diaryService.report(
+            id = diaryId,
+            reporterId = 3000L,
+            command = DiaryCommand.Report(reason = "음란물")
+        )
+
+        assertThatThrownBy{
+            diaryService.report(
+                id = diaryId,
+                reporterId = 3000L,
+                command = DiaryCommand.Report(reason = "음란물")
+            )
+        }.isInstanceOf(DuplicateRequestException::class.java)
     }
 
     @Test

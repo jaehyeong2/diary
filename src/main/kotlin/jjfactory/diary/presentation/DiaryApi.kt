@@ -69,6 +69,15 @@ class DiaryApi(
         return CommonResponse.OK
     }
 
+    @PostMapping("/{id}/report")
+    fun report(@PathVariable id: Long, @RequestBody command: DiaryCommand.Report): CommonResponse<Long> {
+        val userId = AuthSupporter.getLoginUserId()
+
+        return CommonResponse(
+            diaryService.report(id = id, reporterId = userId, command = command)
+        )
+    }
+
     @Operation(summary = "일기 프라이빗으로 변경")
     @PostMapping("/{id}/hide")
     fun hide(@PathVariable id: Long): CommonResponse<Unit> {
