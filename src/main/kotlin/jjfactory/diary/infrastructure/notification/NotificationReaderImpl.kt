@@ -1,9 +1,10 @@
 package jjfactory.diary.infrastructure.notification
 
+import jjfactory.diary.common.exception.ResourceNotFoundException
 import jjfactory.diary.domain.notification.Notification
 import jjfactory.diary.domain.notification.NotificationReader
-import jjfactory.diary.common.exception.ResourceNotFoundException
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 
@@ -23,7 +24,17 @@ class NotificationReaderImpl(
         return notificationRepository.findAllByTargetUserIdAndIsReadIsFalse(userId)
     }
 
-    override fun getPageByTargetUserId(userId: Long): Page<Notification> {
-        TODO("Not yet implemented")
+    override fun getPageByTargetUserId(userId: Long, pageable: Pageable, isRead: Boolean?): Page<Notification?> {
+        return notificationRepository.findPage(pageable) {
+            select(
+                entity(Notification::class)
+            ).from(
+                entity(Notification::class)
+            ).where(
+                isRead?.let {
+                    path(Notification::isRead).eq(isRead)
+                }
+            )
+        }
     }
 }

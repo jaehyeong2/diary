@@ -19,7 +19,7 @@ class CommentFacade(
         val commentId = commentService.create(userId = userId, command = command)
         val diary = diaryService.getDiary(id = command.diaryId, userId = userId)
 
-        notificationService.storeCommentNotification(
+        notificationService.storeCommentWriteNotification(
             sourceUserId = userId,
             targetUserId = diary.userId
         )

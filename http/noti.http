@@ -1,0 +1,12 @@
+### 로그인
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "password" : "1234",
+  "email" : "wogud1513@naver.com"
+}
+
+### 내 알림조회
+GET http://localhost:8080/notifications/my
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiNyIsInN1YiI6IjciLCJpYXQiOjE3MjM5NzMzMzYsImV4cCI6MTcyMzk3NjkzNn0.EaP5spv0Sh3Vz7GnxmVIrNknCaZS8yMPCwFeiGA3ceyZY9_uMdU0FUtkkyVBHwjdOHXMRQFtqECLeXYthWbx2w

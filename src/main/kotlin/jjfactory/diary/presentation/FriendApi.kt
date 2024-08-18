@@ -1,23 +1,18 @@
 package jjfactory.diary.presentation
 
 import io.swagger.v3.oas.annotations.Operation
+import jjfactory.diary.application.FriendFacade
 import jjfactory.diary.common.response.CommonResponse
 import jjfactory.diary.config.security.AuthSupporter
-import jjfactory.diary.config.security.UserAuthentication
 import jjfactory.diary.domain.friend.FriendService
 import jjfactory.diary.domain.user.UserInfo
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RequestMapping("/friends")
 @RestController
 class FriendApi(
-    private val friendService: FriendService
+    private val friendService: FriendService,
+    private val friendFacade: FriendFacade
 ) {
 
     @Operation(summary = "친구 목록")
@@ -46,7 +41,7 @@ class FriendApi(
         val userId = AuthSupporter.getLoginUserId()
 
         return CommonResponse(
-            friendService.sendRequest(senderId = userId, receiverId = receiverId)
+            friendFacade.sendRequest(senderId = userId, receiverId = receiverId)
         )
     }
 
