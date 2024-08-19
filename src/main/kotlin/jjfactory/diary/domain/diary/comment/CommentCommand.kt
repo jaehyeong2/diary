@@ -5,19 +5,22 @@ import jjfactory.diary.domain.user.User
 
 class CommentCommand {
     data class Create(
+        val parentId: Long? = null,
         val diaryId: Long,
         val content: String
     ){
-        fun toEntity(diary: Diary, user: User): Comment {
+        fun toEntity(diaryId: Long, userId: Long): Comment {
             return Comment(
-                user = user,
-                diary = diary,
+                userId = userId,
+                diaryId = diaryId,
                 content = content,
+                parentId = parentId
             )
         }
     }
 
     data class Modify(
+        val parentId: Long? = null,
         val diaryId: Long,
         val content: String
     )

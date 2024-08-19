@@ -1,19 +1,15 @@
 package jjfactory.diary.domain.diary.comment
 
 import jakarta.persistence.*
-import jjfactory.diary.domain.diary.Diary
-import jjfactory.diary.domain.user.User
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
 @Entity
 class Comment(
-    @ManyToOne(fetch = FetchType.LAZY)
-    val user: User,
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    val diary: Diary,
+    val userId: Long,
+    val diaryId: Long,
+    var parentId: Long? = null,
 
     @Column(columnDefinition = "TEXT")
     var content: String,
@@ -27,6 +23,19 @@ class Comment(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 
+    fun isRoot(): Boolean {
+        return parentId == null
+    }
+
+    fun isChild(): Boolean {
+        return parentId != null
+    }
+
+    fun setParent(parentId: Long) {
+        if (this.parentId == null) {
+            this.parentId = parentId
+        }
+    }
 
     fun modify(content: String) {
         this.content = content

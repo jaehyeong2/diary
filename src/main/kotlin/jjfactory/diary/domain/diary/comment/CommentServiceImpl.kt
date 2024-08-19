@@ -25,12 +25,13 @@ class CommentServiceImpl(
     @Transactional(readOnly = true)
     override fun getCommentById(id: Long): CommentInfo.Detail {
         return commentReader.getOrThrow(id).let {
-            val user = it.user
+//            val user = it.user
             CommentInfo.Detail(
                 id = it.id!!,
-                diaryId = it.diary.id!!,
-                userId = user.id!!,
-                userName = user.username,
+//                diaryId = it.diary.id!!,
+                diaryId = 2L,
+                userId = 3L,
+                userName = "user.username",
                 content = it.content,
                 createdAt = it.createdAt!!,
                 updatedAt = it.updatedAt!!
@@ -39,25 +40,26 @@ class CommentServiceImpl(
     }
 
     override fun deleteById(id: Long, userId: Long) {
-        if (commentReader.getOrThrow(id).user.id != userId) throw AccessForbiddenException()
+        if (commentReader.getOrThrow(id).userId != userId) throw AccessForbiddenException()
         commentRepository.deleteById(id)
     }
 
     override fun modify(id: Long, userId: Long, command: CommentCommand.Modify) {
         val comment = commentReader.getOrThrow(id)
-        if (comment.user.id != userId) throw AccessForbiddenException()
+        if (comment.userId != userId) throw AccessForbiddenException()
 
         comment.modify(command.content)
     }
 
     override fun create(userId: Long, command: CommentCommand.Create): Long {
-        val user = userReader.getOrThrow(userId)
-        val diary = diaryReader.getOrThrow(command.diaryId)
+        command.parentId?.let {
+            commentReader.getOrThrow(it)
+        }
 
-        val initEntity = command.toEntity(diary = diary, user = user)
+        val user = userReader.getOrThrow(userId)
+        val initEntity = command.toEntity(diaryId = command.diaryId, userId = userId)
 
         val comment = commentRepository.save(initEntity)
-        //친구면 알림
 
         user.pointUp(1)
         return comment.id!!

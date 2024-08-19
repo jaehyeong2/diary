@@ -24,7 +24,7 @@ Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoi
 PATCH http://localhost:8080/diary/1
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiNyIsInN1YiI6IjciLCJpYXQiOjE3MjM3ODAyNzEsImV4cCI6MTcyMzc4MjA3MX0.Bn_4QRTEYm8dCwQyVldHNqwjVScwxB7orWEiBPhlX5X6BbaaGtWWI_ZGh3VITSm6sZDAnEMKCYNQnav7kNDkIg
-가
+
 
 {
 "content": "테스트 일기야 나의 첫3!ddasd33",
@@ -35,3 +35,16 @@ Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoi
 ### 조회
 GET http://localhost:8080/diary/19
 Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiMjIiLCJzdWIiOiIyMiIsImlhdCI6MTcyMzg4MTM4MSwiZXhwIjoxNzIzODg0OTgxfQ.Wct1G7aC8UQz4WcCWuxaHuUC_Vw0Z5KLAfm0ZmUxJ8lxdSf9ZgZQGX-R5noPa0iR48kekSPknKoMsg0GfhfOnQ
+
+### 댓글 작성
+POST http://localhost:8080/comment
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiNyIsInN1YiI6IjciLCJpYXQiOjE3MjQwMjk5NTUsImV4cCI6MTcyNDAzMzU1NX0.aezFjBYe_Z_IwalPjSVOaWk_Dra9_XYTqjfh93BTwzzNSririQ6a3WUPtpzCTh9SKOCP8vJ8LjBWQfZ4IYzxKg
+Content-Type: application/json
+
+
+{
+    "diaryId":"19",
+    "content":"테슽 ㅡ댓글"
+}
+
+
