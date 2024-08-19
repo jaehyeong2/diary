@@ -32,12 +32,15 @@ class Comment(
     }
 
     fun setParent(parentId: Long) {
-        if (this.parentId == null) {
-            this.parentId = parentId
+        if (this.parentId != null) {
+            throw IllegalArgumentException()
         }
+        this.parentId = parentId
+
     }
 
-    fun modify(content: String) {
+    fun modify(content: String, parentId: Long?) {
         this.content = content
+        parentId?.let { setParent(parentId) }
     }
 }

@@ -48,7 +48,7 @@ class CommentServiceImpl(
         val comment = commentReader.getOrThrow(id)
         if (comment.userId != userId) throw AccessForbiddenException()
 
-        comment.modify(command.content)
+        comment.modify(command.content, parentId = command.parentId)
     }
 
     override fun create(userId: Long, command: CommentCommand.Create): Long {
