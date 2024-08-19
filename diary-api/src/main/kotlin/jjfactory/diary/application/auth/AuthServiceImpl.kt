@@ -47,7 +47,7 @@ class AuthServiceImpl(
 
         return AuthInfo.Detail(
             accessToken = generateAccessToken(userId = user.id!!),
-            refreshToken = generateRefreshToken(userId = user.id)
+            refreshToken = generateRefreshToken(userId = user.id!!)
         )
     }
 
