@@ -5,6 +5,7 @@ import jjfactory.diary.domain.user.UserReader
 import jjfactory.diary.common.exception.AccessForbiddenException
 import jjfactory.diary.infrastructure.diary.comment.CommentRepository
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,25 +19,8 @@ class CommentServiceImpl(
 ) : CommentService {
 
     @Transactional(readOnly = true)
-    override fun getListByUserId(userId: Long): Page<CommentInfo.List> {
-        TODO("Not yet implemented")
-    }
-
-    @Transactional(readOnly = true)
-    override fun getCommentById(id: Long): CommentInfo.Detail {
-        return commentReader.getOrThrow(id).let {
-//            val user = it.user
-            CommentInfo.Detail(
-                id = it.id!!,
-//                diaryId = it.diary.id!!,
-                diaryId = 2L,
-                userId = 3L,
-                userName = "user.username",
-                content = it.content,
-                createdAt = it.createdAt!!,
-                updatedAt = it.updatedAt!!
-            )
-        }
+    override fun getPageByDiaryId(pageable: Pageable, diaryId: Long): Page<CommentInfo.List?> {
+        return commentReader.getPageInfo(pageable, diaryId)
     }
 
     override fun deleteById(id: Long, userId: Long) {

@@ -4,8 +4,8 @@ import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import jjfactory.diary.TestEntityFactory
 import jjfactory.diary.common.exception.ResourceNotFoundException
-import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 class CommentServiceImplTest {
     @Autowired
     private lateinit var commentService: CommentServiceImpl
+
     @PersistenceContext
     lateinit var entityManager: EntityManager
     private val testEntityFactory = TestEntityFactory()

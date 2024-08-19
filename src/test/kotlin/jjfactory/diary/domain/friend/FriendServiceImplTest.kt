@@ -25,6 +25,17 @@ class FriendServiceImplTest {
 
     @Transactional
     @Test
+    fun `셀프 친구요청시 익셉션`() {
+        assertThatThrownBy {
+            friendService.sendRequest(
+                senderId = 2L,
+                receiverId = 2L
+            )
+        }.isInstanceOf(IllegalArgumentException::class.java)
+    }
+
+    @Transactional
+    @Test
     fun `동일한 친구 요청 두번시 익셉션`() {
         friendService.sendRequest(
             senderId = 2L,

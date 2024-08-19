@@ -22,6 +22,8 @@ class FriendServiceImpl(
     //친구 20명까지
     //fixme 친구 목록에 쌍방 같은 사람들어가면 한 로우로 되어야하는게 아니니 재형아
     override fun sendRequest(senderId: Long, receiverId: Long): Long {
+        if (senderId == receiverId) throw IllegalArgumentException()
+
         friendReader.findBySenderIdAndReceiverId(senderId, receiverId)?.let {
             throw DuplicateRequestException()
         }

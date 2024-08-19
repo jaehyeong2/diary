@@ -1,6 +1,7 @@
 package jjfactory.diary
 
 import jjfactory.diary.domain.diary.Diary
+import jjfactory.diary.domain.diary.comment.Comment
 import jjfactory.diary.domain.user.User
 
 class TestEntityFactory {
@@ -34,6 +35,14 @@ class TestEntityFactory {
             content = "안녕 오늘 일기야",
             type = Diary.Type.DAILY,
             accessLevel = Diary.AccessLevel.ALL
+        )
+    }
+
+    fun ofRootComment(userId: Long? = null, diaryId: Long? = null): Comment {
+        return Comment(
+            userId = userId ?: 2L,
+            diaryId = diaryId ?: 3L,
+            content = "comment test"
         )
     }
 }

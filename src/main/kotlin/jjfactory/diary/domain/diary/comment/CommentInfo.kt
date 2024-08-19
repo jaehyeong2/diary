@@ -5,7 +5,13 @@ import java.time.LocalDateTime
 class CommentInfo {
     data class List(
         val id: Long,
-        val content: String
+        val diaryId: Long,
+        val parentId: Long? = null,
+        val userId: Long,
+        val userName: String,
+        val content: String,
+        val createdAt: LocalDateTime,
+        val updatedAt: LocalDateTime,
     )
 
     data class Detail(
