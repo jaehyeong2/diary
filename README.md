@@ -1,4 +1,4 @@
-## Diary-Api (진행중)
+## Diary-Api 
 > 스타트업이 간단한 게시판 형태의 일기 공유 mvp를 출시하고, 새로운 요구사항이 추가 되거나 트래픽이 늘어난다는 가정을 가지고 확장해나가는 개인 학습 프로젝트입니다.
 <br>
 
@@ -11,6 +11,13 @@
 - Junit5
 - postgresql
 - Redis   
+
+<br>
+
+## V2 (진행중)
+
+- [x] 요구사항: back office를 만들어주세요! => 멀티 모듈 구축
+- [ ] scale-out 환경 고려
 
 <br>
 
@@ -59,12 +66,6 @@
 - [QueryDSL 태스트 방법](https://jjay2222.tistory.com/112)
 -->
     
-
-
-### v2
-- [x] 요구사항: back office를 만들어주세요! => 멀티 모듈 구축
-- [ ] @RestClientTest가 아닌 RestAussured로 테스트코드 작성해보기 
-- [ ] 도메인별 부족한 테스트 추가
 
 <!--
 ### TO-DO 1차 개발 (DONE)
