@@ -2,6 +2,7 @@ package jjfactory.diary.presentation.auth
 
 import jjfactory.diary.application.AuthFacade
 import jjfactory.diary.common.response.CommonResponse
+import jjfactory.diary.domain.AdminUserCommand
 import jjfactory.diary.domain.auth.AuthInfo
 import jjfactory.diary.domain.user.UserCommand
 import org.springframework.web.bind.annotation.PostMapping
@@ -15,7 +16,7 @@ class AuthApi(
     private val authFacade: AuthFacade
 ) {
     @PostMapping("/join")
-    fun signUp(@RequestBody command: UserCommand.Create): CommonResponse<Unit> {
+    fun signUp(@RequestBody command: AdminUserCommand.Create): CommonResponse<Unit> {
         return CommonResponse(authFacade.join(command))
     }
 

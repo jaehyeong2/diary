@@ -1,8 +1,8 @@
 package jjfactory.diary.application
 
+import jjfactory.diary.domain.AdminUserCommand
 import jjfactory.diary.domain.auth.AuthInfo
 import jjfactory.diary.domain.auth.AuthService
-import jjfactory.diary.domain.user.UserCommand
 import jjfactory.diary.infrastructure.supporter.MailSender
 import org.springframework.stereotype.Component
 
@@ -11,7 +11,7 @@ class AuthFacade(
     private val authService: AuthService,
     private val mailSender: MailSender
 ) {
-    fun join(command: UserCommand.Create) {
+    fun join(command: AdminUserCommand.Create) {
         authService.join(command)
         mailSender.sendUserActivateMail(command.email)
     }

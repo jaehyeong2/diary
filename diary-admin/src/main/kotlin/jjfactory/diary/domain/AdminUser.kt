@@ -12,7 +12,6 @@ class AdminUser(
     val phone: String,
     val password: String,
     val email: String,
-
     ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
