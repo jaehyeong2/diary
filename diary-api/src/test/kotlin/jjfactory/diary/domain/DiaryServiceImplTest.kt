@@ -1,24 +1,23 @@
-package jjfactory.diary.domain.diary
+package jjfactory.diary.domain
 
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import jjfactory.diary.TestEntityFactory
-import jjfactory.diary.domain.user.User
 import jjfactory.diary.common.exception.AccessForbiddenException
 import jjfactory.diary.common.exception.DuplicateRequestException
-import jjfactory.diary.config.CacheConfig
 import jjfactory.diary.config.CacheConfig.*
+import jjfactory.diary.domain.diary.Diary
+import jjfactory.diary.domain.diary.DiaryCommand
+import jjfactory.diary.domain.diary.DiaryInfo
+import jjfactory.diary.domain.diary.DiaryServiceImpl
 import jjfactory.diary.infrastructure.diary.DiaryReaderImpl
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.cache.CacheManager
-import org.springframework.cache.caffeine.CaffeineCache
 import org.springframework.transaction.annotation.Transactional
-import java.lang.reflect.Member.PUBLIC
 
 @SpringBootTest
 class DiaryServiceImplTest(
@@ -28,15 +27,18 @@ class DiaryServiceImplTest(
 
     @Autowired
     lateinit var diaryService: DiaryServiceImpl
+
     @PersistenceContext
     lateinit var entityManager: EntityManager
+
     @Autowired
     lateinit var diaryReader: DiaryReaderImpl
+
     @Autowired
     lateinit var cacheManager: CacheManager
 
     @BeforeEach
-    fun setUp(){
+    fun setUp() {
         cacheManager.getCache(CacheType.DIARY_INFO.cacheName)?.clear()
     }
 
@@ -105,7 +107,7 @@ class DiaryServiceImplTest(
             command = command
         )
 
-        assertThatThrownBy{
+        assertThatThrownBy {
             diaryService.report(
                 id = diaryId,
                 reporterId = user.id!!,
@@ -138,7 +140,7 @@ class DiaryServiceImplTest(
             command = DiaryCommand.Report(reason = "음란물")
         )
 
-        assertThatThrownBy{
+        assertThatThrownBy {
             diaryService.report(
                 id = diaryId,
                 reporterId = 3000L,
@@ -216,13 +218,14 @@ class DiaryServiceImplTest(
 
     @Transactional
     @Test
-    fun `저장 후 바로 조회 시 캐시 null`(){
+    fun `저장 후 바로 조회 시 캐시 null`() {
         val user = testEntityFactory.ofUser()
         entityManager.persist(user)
         val diary = testEntityFactory.ofPublicDiary(userId = user.id)
         entityManager.persist(diary)
 
-        val diaryCache = cacheManager.getCache(CacheType.DIARY_INFO.cacheName)?.get(diary.id!!, DiaryInfo.Detail::class.java)
+        val diaryCache =
+            cacheManager.getCache(CacheType.DIARY_INFO.cacheName)?.get(diary.id!!, DiaryInfo.Detail::class.java)
 
         assertThat(diaryCache).isNull()
 
@@ -237,7 +240,7 @@ class DiaryServiceImplTest(
 
     @Transactional
     @Test
-    fun `캐시에 저장되고 조회 시 캐시에서 조회`(){
+    fun `캐시에 저장되고 조회 시 캐시에서 조회`() {
         val user = testEntityFactory.ofUser()
         entityManager.persist(user)
         val diary = testEntityFactory.ofPublicDiary(userId = user.id)
@@ -262,7 +265,8 @@ class DiaryServiceImplTest(
             userId = user.id!!
         )
 
-        val diaryCache = cacheManager.getCache(CacheType.DIARY_INFO.cacheName)?.get(diary.id!!, DiaryInfo.Detail::class.java)
+        val diaryCache =
+            cacheManager.getCache(CacheType.DIARY_INFO.cacheName)?.get(diary.id!!, DiaryInfo.Detail::class.java)
         assertThat(diaryCache).isNotNull
 
         assertThat(response2.content).isEqualTo(diaryCache!!.content)
@@ -270,7 +274,7 @@ class DiaryServiceImplTest(
 
     @Transactional
     @Test
-    fun `모두 공개 아니면 다른사람이 조회하면 익셉션`(){
+    fun `모두 공개 아니면 다른사람이 조회하면 익셉션`() {
         val user = testEntityFactory.ofUser()
         entityManager.persist(user)
 
@@ -280,7 +284,7 @@ class DiaryServiceImplTest(
         val diary = testEntityFactory.ofPrivateDiary(userId = user.id)
         entityManager.persist(diary)
 
-        assertThatThrownBy{
+        assertThatThrownBy {
             diaryService.getDiary(
                 id = diary.id!!,
                 userId = user2.id!!

@@ -1,8 +1,9 @@
-package jjfactory.diary.domain.auth
+package jjfactory.diary.application.auth
 
 import jjfactory.diary.TestEntityFactory
 import jjfactory.diary.common.exception.BadCredentialsException
 import jjfactory.diary.common.exception.ResourceNotFoundException
+import jjfactory.diary.domain.auth.AuthServiceImpl
 import jjfactory.diary.domain.user.DuplicateUserNameException
 import jjfactory.diary.domain.user.User
 import jjfactory.diary.domain.user.UserCommand
