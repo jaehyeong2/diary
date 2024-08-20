@@ -35,17 +35,7 @@ class CommentApi(
         ))
     }
 
-    @Operation(summary = "댓글 작성")
-    @PostMapping
-    fun write(@RequestBody command: CommentCommand.Create): CommonResponse<Long> {
-        val userId = AuthSupporter.getLoginUserId()
-        val result = commentFacade.writeComment(
-            userId = userId,
-            command = command
-        )
 
-        return CommonResponse(result)
-    }
 
     @Operation(summary = "댓글 수정")
     @PatchMapping("/{id}")

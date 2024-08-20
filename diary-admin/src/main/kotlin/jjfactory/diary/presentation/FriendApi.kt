@@ -35,23 +35,4 @@ class FriendApi(
         )
     }
 
-    @Operation(summary = "친구 요청")
-    @PostMapping
-    fun sendFriendRequest(@RequestParam receiverId: Long): CommonResponse<Long> {
-        val userId = AuthSupporter.getLoginUserId()
-
-        return CommonResponse(
-            friendFacade.sendRequest(senderId = userId, receiverId = receiverId)
-        )
-    }
-
-    @Operation(summary = "친구 수락")
-    @PostMapping("/{id}/accept")
-    fun acceptRequest(@PathVariable id: Long): CommonResponse<Unit> {
-        val userId = AuthSupporter.getLoginUserId()
-
-        return CommonResponse(
-            friendService.accept(userId = userId, id = id)
-        )
-    }
 }

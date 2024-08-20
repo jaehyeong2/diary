@@ -14,16 +14,5 @@ class CommentFacade(
     private val notificationService: NotificationService
 ) {
 
-    @Transactional
-    fun writeComment(userId: Long, command: CommentCommand.Create): Long {
-        val commentId = commentService.create(userId = userId, command = command)
-        val diary = diaryService.getDiary(id = command.diaryId, userId = userId)
 
-        notificationService.storeCommentWriteNotification(
-            sourceUserId = userId,
-            targetUserId = diary.userId
-        )
-
-        return commentId
-    }
 }

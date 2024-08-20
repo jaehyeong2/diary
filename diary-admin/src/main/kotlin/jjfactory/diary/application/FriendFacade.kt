@@ -11,18 +11,4 @@ class FriendFacade(
     private val notificationService: NotificationService
 ) {
 
-    @Transactional
-    fun sendRequest(senderId: Long, receiverId: Long): Long {
-        val friendId = friendService.sendRequest(
-            senderId = senderId,
-            receiverId = receiverId
-        )
-
-        notificationService.storeFriendRequestNotification(
-            sourceUserId = senderId,
-            targetUserId = receiverId
-        )
-
-        return friendId
-    }
 }
