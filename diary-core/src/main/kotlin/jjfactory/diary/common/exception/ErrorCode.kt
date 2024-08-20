@@ -38,5 +38,6 @@ enum class ErrorCode(
     ACCOUNT_NOT_FOUND_ERROR("계정 정보가 없습니다", "5000", HttpStatus.BAD_REQUEST),
 
     CONFLICT_DUPLICATE_USERNAME("중복된 유저네임입니다.", "0001", HttpStatus.CONFLICT),
-    CONFLICT_DUPLICATE_REQUEST("중복된 요청입니다.", "0002", HttpStatus.CONFLICT)
+    CONFLICT_DUPLICATE_REQUEST("중복된 요청입니다.", "0002", HttpStatus.CONFLICT),
+    CONFLICT_SELF_REPORT_REQUEST("본인 게시글은 신고할 수 없습니다", "0003", HttpStatus.CONFLICT),
 }

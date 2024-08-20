@@ -1,16 +1,16 @@
 package jjfactory.diary.domain.report
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
+import jakarta.persistence.*
+import jjfactory.diary.domain.diary.Diary
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
 
 @Entity
 class DiaryReport(
-    val diaryId: Long,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "diary_id", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    val diary: Diary,
     val reporterId: Long,
     val reason: String,
 
@@ -27,5 +27,10 @@ class DiaryReport(
 
     fun read(){
         checked = true
+    }
+
+    fun validate(){
+        if (diary.userId == reporterId)
+            throw SelfReportInvalidException()
     }
 }
