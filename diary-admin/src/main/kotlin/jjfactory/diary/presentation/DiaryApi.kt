@@ -3,11 +3,9 @@ package jjfactory.diary.presentation
 import io.swagger.v3.oas.annotations.Operation
 import jjfactory.diary.common.response.CommonResponse
 import jjfactory.diary.config.security.AuthSupporter
-import jjfactory.diary.config.security.UserAuthentication
 import jjfactory.diary.domain.diary.DiaryCommand
 import jjfactory.diary.domain.diary.DiaryInfo
 import jjfactory.diary.domain.diary.DiaryService
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -18,7 +16,7 @@ class DiaryApi(
 
     //todo paging
     @GetMapping
-    fun getPublicDiaryList(): CommonResponse<List<DiaryInfo.List>>{
+    fun getPublicDiaryList(): CommonResponse<List<DiaryInfo.List>> {
         return CommonResponse(diaryService.getPublicDiaryList())
     }
 
@@ -67,15 +65,6 @@ class DiaryApi(
         )
 
         return CommonResponse.OK
-    }
-
-    @PostMapping("/{id}/report")
-    fun report(@PathVariable id: Long, @RequestBody command: DiaryCommand.Report): CommonResponse<Long> {
-        val userId = AuthSupporter.getLoginUserId()
-
-        return CommonResponse(
-            diaryService.report(id = id, reporterId = userId, command = command)
-        )
     }
 
     @Operation(summary = "일기 프라이빗으로 변경")

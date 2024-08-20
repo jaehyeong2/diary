@@ -18,7 +18,6 @@ class DiaryServiceImpl(
     private val diaryRepository: DiaryRepository,
     private val diaryReader: DiaryReader,
     private val userReader: UserReader,
-    private val diaryReportRepository: DiaryReportRepository
 ) : DiaryService {
 
     override fun write(userId: Long, command: DiaryCommand.Create): Long {
@@ -96,23 +95,6 @@ class DiaryServiceImpl(
                 updatedAt = it.updatedAt
             )
         }
-    }
-
-    override fun report(id: Long, reporterId: Long, command: DiaryCommand.Report): Long {
-        val diary = diaryReader.getOrThrow(id)
-        if (diary.userId == reporterId) throw IllegalArgumentException()
-
-        diaryReportRepository.findByDiaryIdAndReporterId(diaryId = diary.id!!, reporterId = reporterId)?.let {
-            throw DuplicateRequestException()
-        }
-
-        val initReport = DiaryReport(
-            diaryId = diary.id,
-            reporterId = reporterId,
-            reason = command.reason
-        )
-
-        return diaryReportRepository.save(initReport).id!!
     }
 
     @CacheEvict(cacheNames = ["diary_detail"], key = "#id")

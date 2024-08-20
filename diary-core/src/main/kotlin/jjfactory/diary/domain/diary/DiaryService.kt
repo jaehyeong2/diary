@@ -11,5 +11,4 @@ interface DiaryService {
     fun getDiaryPage(): Page<DiaryInfo.Detail>
     fun openToAll(userId: Long, id: Long)
     fun getPublicDiaryList(): List<DiaryInfo.List>
-    fun report(id: Long, reporterId: Long, command: DiaryCommand.Report): Long
 }
