@@ -2,10 +2,10 @@ package jjfactory.diary.domain.diary
 
 import jjfactory.diary.common.exception.AccessForbiddenException
 import jjfactory.diary.common.exception.DuplicateRequestException
-import jjfactory.diary.domain.diary.report.DiaryReport
+import jjfactory.diary.domain.report.DiaryReport
 import jjfactory.diary.domain.user.UserReader
 import jjfactory.diary.infrastructure.diary.DiaryRepository
-import jjfactory.diary.infrastructure.diary.report.DiaryReportRepository
+import jjfactory.diary.infrastructure.report.DiaryReportRepository
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page

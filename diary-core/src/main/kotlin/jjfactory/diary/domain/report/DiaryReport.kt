@@ -1,4 +1,4 @@
-package jjfactory.diary.domain.diary.report
+package jjfactory.diary.domain.report
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -14,6 +14,8 @@ class DiaryReport(
     val reporterId: Long,
     val reason: String,
 
+    var checked: Boolean = false,
+
     @CreationTimestamp
     var createdAt: LocalDateTime? = null,
     @UpdateTimestamp
@@ -22,4 +24,8 @@ class DiaryReport(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
+
+    fun read(){
+        checked = true
+    }
 }
