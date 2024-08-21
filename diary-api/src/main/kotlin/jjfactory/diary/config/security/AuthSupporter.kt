@@ -11,7 +11,7 @@ class AuthSupporter {
         private fun getAuthentication(): UserAuthentication {
             val authentication = SecurityContextHolder.getContext().authentication
 
-            if (authentication is AnonymousAuthenticationToken) throw UnAuthorizedException()
+            if (authentication == null || authentication is AnonymousAuthenticationToken) throw UnAuthorizedException()
             return authentication as UserAuthentication
         }
 
