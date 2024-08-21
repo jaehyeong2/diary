@@ -7,4 +7,5 @@ interface ReportReader {
     fun getDiaryReportOrThrow(id: Long): DiaryReport
     fun getDiaryReport(id: Long): DiaryReport?
     fun getDiaryReportPage(pageable: Pageable): Page<DiaryReport?>
+    fun getDiaryReportInfoPage(pageable: Pageable): Page<ReportInfo.Detail?>
 }

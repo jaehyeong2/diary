@@ -33,6 +33,18 @@ class CustomExceptionHandler {
         return ResponseEntity(errorResponse, HttpStatus.FORBIDDEN)
     }
 
+    @ExceptionHandler(UnAuthorizedException::class)
+    fun handleUnAuthorizedException(
+        ex: UnAuthorizedException,
+        request: HttpServletRequest
+    ): ResponseEntity<ErrorResponseBody> {
+        val errorResponse = ErrorResponseBody(
+            status = HttpStatus.UNAUTHORIZED.value(),
+            message = ex.message,
+        )
+        return ResponseEntity(errorResponse, HttpStatus.UNAUTHORIZED)
+    }
+
     @ExceptionHandler(ResourceNotFoundException::class)
     fun handleResourceNotFoundException(
         ex: ResourceNotFoundException,

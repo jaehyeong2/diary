@@ -14,7 +14,8 @@ class DiaryReport(
     val reporterId: Long,
     val reason: String,
 
-    var checked: Boolean = false,
+    @Enumerated(EnumType.STRING)
+    var status: Status = Status.PENDING,
 
     @CreationTimestamp
     var createdAt: LocalDateTime? = null,
@@ -25,11 +26,19 @@ class DiaryReport(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 
-    fun read(){
-        checked = true
+    enum class Status {
+        PENDING, REVIEWED, BLOCKED
     }
 
-    fun validate(){
+    fun check() {
+        if (status == Status.PENDING) status = Status.REVIEWED
+    }
+
+    fun block(){
+        status = Status.BLOCKED
+    }
+
+    fun validate() {
         if (diary.userId == reporterId)
             throw SelfReportInvalidException()
     }
