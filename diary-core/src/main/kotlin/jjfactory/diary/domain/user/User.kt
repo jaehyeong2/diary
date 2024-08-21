@@ -29,6 +29,11 @@ class User(
         this.point += point
     }
 
+    fun pointDownForTransaction(point: Int){
+        if (this.point < point) throw NotEnoughPointException()
+        pointDown(point)
+    }
+
     fun pointDown(point: Int){
         if (this.point < point) this.point = 0
         else this.point -= point
