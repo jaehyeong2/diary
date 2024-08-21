@@ -4,6 +4,7 @@ import jjfactory.diary.domain.diary.DiaryService
 import jjfactory.diary.domain.diary.comment.CommentCommand
 import jjfactory.diary.domain.diary.comment.CommentService
 import jjfactory.diary.domain.notification.NotificationService
+import jjfactory.diary.domain.notification.NotificationType
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,9 +20,10 @@ class CommentFacade(
         val commentId = commentService.create(userId = userId, command = command)
         val diary = diaryService.getDiary(id = command.diaryId, userId = userId)
 
-        notificationService.storeCommentWriteNotification(
+        notificationService.store(
             sourceUserId = userId,
-            targetUserId = diary.userId
+            targetUserId = diary.userId,
+            type = NotificationType.WRITE_COMMENT
         )
 
         return commentId

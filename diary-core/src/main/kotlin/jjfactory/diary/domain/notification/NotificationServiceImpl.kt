@@ -48,21 +48,11 @@ class NotificationServiceImpl(
         }
     }
 
-    override fun storeCommentWriteNotification(sourceUserId: Long, targetUserId: Long){
+    override fun store(sourceUserId: Long, targetUserId: Long, type: NotificationType){
         val initNotification = Notification(
             sourceUserId = sourceUserId,
             targetUserId = targetUserId,
-            type = NotificationType.WRITE_COMMENT
-        )
-
-        notificationRepository.save(initNotification)
-    }
-
-    override fun storeFriendRequestNotification(sourceUserId: Long, targetUserId: Long){
-        val initNotification = Notification(
-            sourceUserId = sourceUserId,
-            targetUserId = targetUserId,
-            type = NotificationType.FRIEND_REQUEST
+            type = type
         )
 
         notificationRepository.save(initNotification)

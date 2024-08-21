@@ -2,6 +2,7 @@ package jjfactory.diary.application
 
 import jjfactory.diary.domain.friend.FriendService
 import jjfactory.diary.domain.notification.NotificationService
+import jjfactory.diary.domain.notification.NotificationType
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,9 +19,10 @@ class FriendFacade(
             receiverId = receiverId
         )
 
-        notificationService.storeFriendRequestNotification(
+        notificationService.store(
             sourceUserId = senderId,
-            targetUserId = receiverId
+            targetUserId = receiverId,
+            type = NotificationType.FRIEND_REQUEST
         )
 
         return friendId
