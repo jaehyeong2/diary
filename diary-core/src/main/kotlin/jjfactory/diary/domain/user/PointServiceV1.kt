@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Transactional
 @Service
-class PointServiceImpl(
+class PointServiceV1(
     private val userReader: UserReader
 ) : PointService {
     override fun send(sourceUserId:Long, targetUserId: Long, point: Int){

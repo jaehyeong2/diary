@@ -3,17 +3,22 @@ package jjfactory.diary.domain.user
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import jjfactory.diary.TestEntityFactory
+import jjfactory.diary.infrastructure.user.UserRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Executors
 
 @SpringBootTest
-class PointServiceImplTest {
+class PointServiceV1Test {
     @Autowired
-    private lateinit var pointService: PointServiceImpl
+    private lateinit var pointService: PointServiceV1
+    @Autowired
+    private lateinit var userRepository: UserRepository
     private val testEntityFactory = TestEntityFactory()
 
     @PersistenceContext
@@ -58,6 +63,39 @@ class PointServiceImplTest {
 
         assertThat(user1.point).isEqualTo(0)
         assertThat(user2.point).isEqualTo(500)
+    }
+
+    @Transactional
+    @Test
+    fun `동시성 이슈가 발생가능`() {
+        val user1 = testEntityFactory.ofUser()
+        user1.pointUp(1000)
+        val user2 = testEntityFactory.ofUser()
+
+        userRepository.save(user1)
+        userRepository.save(user2)
+
+        val executorService = Executors.newFixedThreadPool(2)
+        val latch = CountDownLatch(2)
+
+        for (i in 1..2) {
+            executorService.execute {
+                try {
+                    pointService.send(
+                        sourceUserId = user1.id!!,
+                        targetUserId = user2.id!!,
+                        point = 500
+                    )
+                } finally {
+                    latch.countDown()
+                }
+            }
+        }
+
+        latch.await()
+
+        assertThat(user1.point).isEqualTo(0)
+        assertThat(user2.point).isEqualTo(1000)
     }
 
 }

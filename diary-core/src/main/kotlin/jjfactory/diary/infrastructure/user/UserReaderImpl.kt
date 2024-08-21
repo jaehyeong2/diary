@@ -1,10 +1,12 @@
 package jjfactory.diary.infrastructure.user
 
+import jakarta.persistence.LockModeType
 import jjfactory.diary.domain.user.User
 import jjfactory.diary.domain.user.UserReader
 import jjfactory.diary.common.exception.ResourceNotFoundException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.repository.Lock
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 
@@ -22,6 +24,11 @@ class UserReaderImpl(
 
     override fun getByIdIn(ids: List<Long>): List<User> {
         return userRepository.findAllByIdIn(ids)
+    }
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    override fun getOrThrowWithLock(id: Long): User {
+        return userRepository.findByIdOrNull(id) ?: throw ResourceNotFoundException("user not found")
     }
 
     override fun existsByUsername(username: String): Boolean {

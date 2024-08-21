@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable
 interface UserReader {
     fun get(id: Long): User?
     fun getOrThrow(id: Long): User
+    fun getOrThrowWithLock(id: Long): User
     fun getByIdIn(ids: List<Long>): List<User>
     fun getOrThrowByUsername(username: String): User
     fun getOrThrowByEmail(username: String): User
