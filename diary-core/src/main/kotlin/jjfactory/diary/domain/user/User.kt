@@ -1,6 +1,9 @@
 package jjfactory.diary.domain.user
 
 import jakarta.persistence.*
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
+import java.time.LocalDateTime
 
 @Table(name = "users")
 @Entity
@@ -14,9 +17,14 @@ class User(
     val email: String,
     var username: String,
     var point: Int = 0,
-    var activated: Boolean = false
+    var activated: Boolean = false,
 
-) {
+    @CreationTimestamp
+    var createdAt: LocalDateTime? = null,
+    @UpdateTimestamp
+    var updatedAt: LocalDateTime? = null,
+
+    ) {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
     var fcmToken: String? = null
