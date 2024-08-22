@@ -1,8 +1,9 @@
-package jjfactory.diary.domain.user
+package jjfactory.diary.domain.point
 
 import jakarta.persistence.EntityManager
 import jakarta.persistence.PersistenceContext
 import jjfactory.diary.TestEntityFactory
+import jjfactory.diary.domain.user.NotEnoughPointException
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.Test
@@ -27,14 +28,13 @@ class PointServiceImplTest {
         entityManager.persist(user1)
         entityManager.persist(user2)
 
-
-        val ownPoint = user1.point
+        val ownPoint = user1.getCurrentPoint()
 
         assertThatThrownBy {
             pointService.send(
                 sourceUserId = user1.id!!,
                 targetUserId = user2.id!!,
-                point = ownPoint + 10
+                point =  ownPoint +10
             )
         }.isInstanceOf(NotEnoughPointException::class.java)
     }
@@ -43,21 +43,27 @@ class PointServiceImplTest {
     @Test
     fun `포인트 거래 성공`() {
         val user1 = testEntityFactory.ofUser()
-        user1.pointUp(500)
-
         val user2 = testEntityFactory.ofUser()
         entityManager.persist(user1)
         entityManager.persist(user2)
 
+        val point = Point(user1, 500)
+        val point2 = Point(user2)
+
+        entityManager.persist(point)
+        entityManager.persist(point2)
+
+        user1.point = point
+        user2.point = point2
 
         pointService.send(
             sourceUserId = user1.id!!,
             targetUserId = user2.id!!,
-            point = user1.point
+            point = 500
         )
 
-        assertThat(user1.point).isEqualTo(0)
-        assertThat(user2.point).isEqualTo(500)
+        assertThat(user1.getCurrentPoint()).isEqualTo(0)
+        assertThat(user2.getCurrentPoint()).isEqualTo(500)
     }
 
 }

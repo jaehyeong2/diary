@@ -17,7 +17,10 @@ class PointServiceImpl(
 ) : PointService {
     override fun send(sourceUserId:Long, targetUserId: Long, point: Int){
         val sender = userReader.getOrThrow(sourceUserId)
+        sender.sendPoint(point)
+
         val receiver = userReader.getOrThrow(targetUserId)
+        receiver.pointUp(point)
 
         val initTransactions = Transactions(
             senderId = sender.id!!,

@@ -1,6 +1,7 @@
 package jjfactory.diary.domain.user
 
 import jakarta.persistence.*
+import jjfactory.diary.domain.point.Point
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.time.LocalDateTime
@@ -26,6 +27,8 @@ class User(
     @UpdateTimestamp
     var updatedAt: LocalDateTime? = null
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+    var point: Point? = null
 
     var fcmToken: String? = null
 
@@ -35,5 +38,26 @@ class User(
 
     fun activate(){
         activated = true
+    }
+
+    fun getCurrentPoint(): Int {
+        return point?.amount ?: 0
+    }
+
+    fun pointUp(amount: Int){
+        ;point?.up(amount)
+    }
+
+    fun pointDown(amount: Int){
+        point?.downToZero(amount)
+    }
+
+    private fun validatePoint(amount: Int){
+        if (getCurrentPoint() < amount) throw NotEnoughPointException()
+    }
+
+    fun sendPoint(amount: Int){
+        validatePoint(amount)
+        pointDown(amount = amount)
     }
 }

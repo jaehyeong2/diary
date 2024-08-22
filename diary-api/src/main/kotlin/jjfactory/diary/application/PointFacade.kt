@@ -2,7 +2,7 @@ package jjfactory.diary.application
 
 import jjfactory.diary.domain.notification.NotificationService
 import jjfactory.diary.domain.notification.NotificationType
-import jjfactory.diary.domain.user.PointService
+import jjfactory.diary.domain.point.PointService
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 

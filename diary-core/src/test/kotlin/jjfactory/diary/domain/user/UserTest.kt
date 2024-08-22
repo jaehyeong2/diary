@@ -1,6 +1,7 @@
 package jjfactory.diary.domain.user
 
 import jjfactory.diary.TestEntityFactory
+import jjfactory.diary.domain.point.Point
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -10,10 +11,9 @@ class UserTest {
     @Test
     fun pointUp() {
         val user = testEntityFactory.ofUser()
-
+        user.point = Point(user = user, amount = 5)
         user.pointUp(5)
-
-        assertThat(user.point).isEqualTo(5)
+        assertThat(user.getCurrentPoint()).isEqualTo(10)
     }
 
     @Test
@@ -22,8 +22,8 @@ class UserTest {
         user.pointUp(10)
 
         user.pointDown(7)
-        assertThat(user.point).isEqualTo(3)
+        assertThat(user.getCurrentPoint()).isEqualTo(3)
         user.pointDown(7)
-        assertThat(user.point).isEqualTo(0)
+        assertThat(user.getCurrentPoint()).isEqualTo(0)
     }
 }
