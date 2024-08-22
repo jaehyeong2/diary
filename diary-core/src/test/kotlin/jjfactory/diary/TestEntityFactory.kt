@@ -2,6 +2,7 @@ package jjfactory.diary
 
 import jjfactory.diary.domain.diary.Diary
 import jjfactory.diary.domain.diary.comment.Comment
+import jjfactory.diary.domain.point.Point
 import jjfactory.diary.domain.user.User
 
 class TestEntityFactory {
