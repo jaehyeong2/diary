@@ -22,7 +22,6 @@ class UserServiceImpl(
                 gender = it.gender.toString(),
                 email = it.email,
                 username = it.username,
-                point = it.point
             )
         }
     }
@@ -38,7 +37,6 @@ class UserServiceImpl(
                 gender = it.gender.toString(),
                 email = it.email,
                 username = it.username,
-                point = it.point
             )
         }
     }

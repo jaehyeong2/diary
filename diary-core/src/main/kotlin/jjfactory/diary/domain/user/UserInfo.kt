@@ -12,7 +12,6 @@ class UserInfo {
         val gender: String,
         val email: String,
         val username: String,
-        val point: Int,
     )
 
     data class List(
@@ -23,6 +22,5 @@ class UserInfo {
         val gender: String,
         val email: String,
         val username: String,
-        val point: Int
     )
 }

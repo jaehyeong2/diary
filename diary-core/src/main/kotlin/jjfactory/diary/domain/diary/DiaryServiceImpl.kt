@@ -1,14 +1,13 @@
 package jjfactory.diary.domain.diary
 
 import jjfactory.diary.common.exception.AccessForbiddenException
-import jjfactory.diary.common.exception.DuplicateRequestException
-import jjfactory.diary.domain.report.DiaryReport
 import jjfactory.diary.domain.user.UserReader
 import jjfactory.diary.infrastructure.diary.DiaryRepository
-import jjfactory.diary.infrastructure.report.DiaryReportRepository
+import jjfactory.diary.infrastructure.point.PointHistoryRepository
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class DiaryServiceImpl(
     private val diaryRepository: DiaryRepository,
+    private val pointHistoryRepository: PointHistoryRepository,
     private val diaryReader: DiaryReader,
     private val userReader: UserReader,
 ) : DiaryService {
@@ -26,7 +26,7 @@ class DiaryServiceImpl(
 
         val diary = diaryRepository.save(initDiary)
 
-        user.pointUp(3)
+//        user.pointUp(3)
         return diary.id!!
     }
 
@@ -49,7 +49,7 @@ class DiaryServiceImpl(
         if (diary.userId != user.id) throw AccessForbiddenException()
 
         diaryRepository.delete(diary)
-        user.pointDown(3)
+//        user.pointDown(3)
     }
 
     @Cacheable(cacheNames = ["diary_detail"], key = "#id")
@@ -120,7 +120,7 @@ class DiaryServiceImpl(
         diary.hide()
     }
 
-    override fun getDiaryPage(): Page<DiaryInfo.Detail> {
-        TODO("Not yet implemented")
+    override fun getDiaryPage(pageable: Pageable, accessLevel: Diary.AccessLevel): Page<DiaryInfo.List?> {
+        return diaryReader.getPageInfo(pageable = pageable, accessLevel)
     }
 }

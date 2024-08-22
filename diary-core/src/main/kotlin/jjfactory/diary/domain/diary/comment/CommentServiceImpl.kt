@@ -45,7 +45,7 @@ class CommentServiceImpl(
 
         val comment = commentRepository.save(initEntity)
 
-        user.pointUp(1)
+//        user.pointUp(1)
         return comment.id!!
     }
 }

@@ -67,7 +67,6 @@ class FriendServiceImpl(
                 gender = it.gender.toString(),
                 email = it.email,
                 username = it.username,
-                point = it.point
             )
         }
     }
@@ -92,7 +91,6 @@ class FriendServiceImpl(
                 gender = it.gender.toString(),
                 email = it.email,
                 username = it.username,
-                point = it.point
             )
         }
     }
