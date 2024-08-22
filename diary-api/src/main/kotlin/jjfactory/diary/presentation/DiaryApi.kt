@@ -1,6 +1,7 @@
 package jjfactory.diary.presentation
 
 import io.swagger.v3.oas.annotations.Operation
+import jjfactory.diary.application.DiaryFacade
 import jjfactory.diary.common.response.CommonResponse
 import jjfactory.diary.config.security.AuthSupporter
 import jjfactory.diary.config.security.UserAuthentication
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/diary")
 class DiaryApi(
     private val diaryService: DiaryService,
+    private val diaryFacade: DiaryFacade
 ) {
 
     //todo paging
@@ -35,7 +37,7 @@ class DiaryApi(
         val userId = AuthSupporter.getLoginUserId()
 
         return CommonResponse(
-            diaryService.write(
+            diaryFacade.write(
                 userId = userId,
                 command = command
             )
