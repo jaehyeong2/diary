@@ -53,7 +53,6 @@ class DiaryServiceImpl(
     }
 
     @Cacheable(cacheNames = ["diary_detail"], key = "#id")
-    @Transactional(readOnly = true)
     override fun getDiary(id: Long, userId: Long): DiaryInfo.Detail {
         val diary = diaryReader.getOrThrow(id)
 

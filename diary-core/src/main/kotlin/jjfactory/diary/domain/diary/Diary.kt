@@ -17,6 +17,7 @@ class Diary(
     var content: String,
 
     val userId: Long,
+    var viewCount: Long = 0,
 
     @CreationTimestamp
     var createdAt: LocalDateTime? = null,
@@ -52,5 +53,9 @@ class Diary(
         this.type = type
         this.accessLevel = accessLevel
         this.content = content
+    }
+
+    fun increaseViewCount(){
+        viewCount++
     }
 }
