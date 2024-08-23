@@ -7,4 +7,5 @@ interface DiaryReader {
     fun get(id: Long): Diary?
     fun getOrThrow(id: Long): Diary
     fun getPage(pageable: Pageable): Page<Diary?>
+    fun getPageInfo(pageable: Pageable, accessLevel: Diary.AccessLevel): Page<DiaryInfo.List?>
 }

@@ -1,0 +1,12 @@
+### 로그인
+POST http://localhost:8082/auth/login
+Content-Type: application/json
+
+{
+  "password" : "1234",
+  "email" : "wogud1514@naver.com"
+}
+
+### 조회
+GET http://localhost:8082/diary?accessLevel=ALL&page=8050
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJqd3RUeXBlIjoiQUNDRVNTX1RPS0VOIiwianRpIjoiMSIsInN1YiI6IjEiLCJpYXQiOjE3MjQzMDA3MDYsImV4cCI6MTcyNDMwNDMwNn0.7QpY_o2WghPnUDJHLQWxhqz6bJhJ7Czryi0uvZ8lWSTJH-l-7vlKqN9k_enAwgdle8H0TmdHRjf6tl3hCOfH2A
